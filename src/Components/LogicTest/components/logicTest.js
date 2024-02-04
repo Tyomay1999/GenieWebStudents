@@ -19,7 +19,7 @@ const LogicTest = () => {
     const selectedAnswer = useSelector( state => state.logicTest.selected_answer )
 
     const time = new Date();
-    time.setSeconds(time.getSeconds() + 60)
+    time.setSeconds( time.getSeconds() + 60 )
 
     useEffect( () => {
         if ( answers[ current ] ) {
@@ -44,7 +44,7 @@ const LogicTest = () => {
     };
 
     const done = () => {
-        console.log([...answers, selectedAnswer], "<--------------------------- SELECTED ANSWER")
+        console.log( [ ...answers, selectedAnswer ], "<--------------------------- SELECTED ANSWER" )
     };
 
     const items = logicTests.map( ( item ) => ( {
@@ -68,10 +68,10 @@ const LogicTest = () => {
     };
 
     return <div className={ styles.main }>
-        <div className={styles.timer}>
-            <LogicTestTimer expiryTimestamp={time} />
+        <div className={ styles.timer }>
+            <LogicTestTimer expiryTimestamp={ time }/>
         </div>
-        <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
+        <div style={ { width: "100%", display: "flex", justifyContent: "center" } }>
             <Steps type="inline" current={ current } items={ items }/>
         </div>
         <div style={ contentStyle }>
