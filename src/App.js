@@ -10,7 +10,7 @@ const App = () => {
     const allRoutes = [
         { id: 0, path: "/auth", element: <Auth/>, name: "Auth" },
         { id: 1, path: "/", element: <Main/>, name: "main" },
-        { id: 2, path: "/logic-test/:id", element: <Exams/>, name: "Exams" },
+        { id: 2, path: "/exam/:lesson/:level/:token", element: <Exams/>, name: "Exams" },
     ]
 
     return (

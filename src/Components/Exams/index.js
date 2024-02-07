@@ -8,8 +8,9 @@ import { Greeting, FinishExam, RedirectUserToGeneralSite } from "./components/ut
 
 
 const Exam = () => {
-    // const dispatch = useDispatch()
-    // const params = useParams()
+    const dispatch = useDispatch()
+    const params = useParams()
+    const { token, level, lesson } = params
     const examStatus = useSelector( state => state.exams.exam_status )
     const time = new Date();
     time.setSeconds(time.getSeconds() + 5)

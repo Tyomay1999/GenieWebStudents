@@ -10,8 +10,6 @@ import { addAnswer, changeAnswer, clearSelectedAnswer, selectAnswer } from "../.
 
 const ExamTest = () => {
     const dispatch = useDispatch()
-    const params = useParams()
-    // console.log(params.id)
     const questions = useSelector( state => state.exams.selectedExam.questions )
     const exam = useSelector( state => state.exams.selectedExam )
     const selectedAnswer = useSelector( state => state.exams.selected_answer )
