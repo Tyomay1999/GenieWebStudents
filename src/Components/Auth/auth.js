@@ -1,14 +1,25 @@
 import React from 'react';
 import styles from "./styles/auth.module.scss"
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
+import { signUp } from "../../Redux/Slices/auth";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 
-const onFinish = ( values ) => {
-    console.log( 'Success:', values );
-};
 const onFinishFailed = ( errorInfo ) => {
     console.log( 'Failed:', errorInfo );
 };
 const Auth = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const onFinish = ( values ) => {
+        dispatch(signUp({
+            account: {
+                email: values.email,
+                password: values.password
+            }, navigate
+        }))
+    };
 
     return <div className={ styles.main }>
         <div className={styles.title_wrapper}>
@@ -35,16 +46,16 @@ const Auth = () => {
             autoComplete="off"
         >
             <Form.Item
-                label="Username"
-                name="username"
+                label="Email"
+                name="email"
                 rules={ [
                     {
                         required: true,
-                        message: 'Please input your username!',
+                        message: 'Please input your email!',
                     },
                 ] }
             >
-                <Input/>
+                <Input type="email"/>
             </Form.Item>
 
             <Form.Item
@@ -60,16 +71,16 @@ const Auth = () => {
                 <Input.Password/>
             </Form.Item>
 
-            <Form.Item
-                name="remember"
-                valuePropName="checked"
-                wrapperCol={ {
-                    offset: 8,
-                    span: 16,
-                } }
-            >
-                <Checkbox>Remember me</Checkbox>
-            </Form.Item>
+            {/*<Form.Item*/}
+            {/*    name="remember"*/}
+            {/*    valuePropName="checked"*/}
+            {/*    wrapperCol={ {*/}
+            {/*        offset: 8,*/}
+            {/*        span: 16,*/}
+            {/*    } }*/}
+            {/*>*/}
+            {/*    <Checkbox>Remember me</Checkbox>*/}
+            {/*</Form.Item>*/}
 
             <Form.Item
                 wrapperCol={ {
@@ -78,7 +89,7 @@ const Auth = () => {
                 } }
             >
                 <Button type="primary" htmlType="submit">
-                    Submit
+                    Login
                 </Button>
             </Form.Item>
         </Form>

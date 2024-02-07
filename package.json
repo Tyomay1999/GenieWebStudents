@@ -24,7 +24,7 @@
   "scripts": {
     "start": "set PORT=3002 && react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

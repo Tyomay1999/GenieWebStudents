@@ -15,7 +15,13 @@ class Service {
         return `${ this.server_url }/admin/students/send_email`
     }
 
+    SignUp() {
+        return `${ this.server_url }/login`
+    }
 
+    CheckAccount() {
+        return `${ this.server_url }/check`
+    }
 }
 
 
