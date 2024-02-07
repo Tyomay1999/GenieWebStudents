@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import style from "./styles/student.module.scss"
-import { Avatar, Breadcrumb, Layout, Menu, theme, Typography, Card, Skeleton, Switch } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined, SmileFilled, SmileOutlined } from '@ant-design/icons';
-import student_PNG from "../../Assets/Student/student.png"
-import frontEnd_PNG from "../../Assets/Student/front-end.png"
-import html_SVG from "../../Assets/Student/html.svg"
-import css_SVG from "../../Assets/Student/css.svg"
-import javaScript_SVG from "../../Assets/Student/js.svg"
+import { Avatar, Breadcrumb, Layout, Menu, theme, Typography, Card, Skeleton } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
-import { students } from "../../Redux/Slices/students";
 import { useSelector } from "react-redux";
 
 const { Header, Content, Footer } = Layout;
@@ -63,11 +56,17 @@ const Student = () => {
                 <Content
                     style={ {
                         margin: '0 16px',
+                        display: "flex",
+                        alignItems: "center",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        paddingTop: "25px"
                     } }
                 >
                     <Breadcrumb
                         style={ {
                             margin: '16px 0',
+                            width: "100%"
                         } }
                     >
                         <Breadcrumb.Item>Student</Breadcrumb.Item>
@@ -77,6 +76,7 @@ const Student = () => {
                         style={ {
                             padding: 24,
                             minHeight: "80vh",
+                            maxWidth: "1200px",
                             background: colorBgContainer,
                             borderRadius: borderRadiusLG,
                             display: "flex",

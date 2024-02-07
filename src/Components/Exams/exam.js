@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import styles from "./styles/exam.module.scss"
 import { Breadcrumb, Layout, theme, Typography, Card } from 'antd';
-import html_SVG from "../../Assets/Student/html.svg"
 import time_SVG from "../../Assets/Exam/time.svg"
 import level_SVG from "../../Assets/Exam/level.svg"
-import css_SVG from "../../Assets/Student/css.svg"
-import js_SVG from "../../Assets/Student/js.svg"
-import email_SVG from "../../Assets/ContactUS/email.svg";
+import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const { Header, Content, Footer } = Layout;
 const { Meta } = Card;
@@ -18,13 +17,16 @@ const Exam = () => {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
     // TODO Check Loading
+    const navigate = useNavigate();
     const [ loading, setLoading ] = useState( false );
+
+    const exams = useSelector(state => state.exams.all)
+
     const onChange = ( checked ) => {
         setLoading( !checked );
     };
 
-
-    return <div className={ styles.main }>
+    return <div className={ styles.container }>
         <Layout
             style={ {
                 minHeight: '100vh'
@@ -44,11 +46,17 @@ const Exam = () => {
                 <Content
                     style={ {
                         margin: '0 16px',
+                        display: "flex",
+                        alignItems: "center",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        paddingTop: "25px"
                     } }
                 >
                     <Breadcrumb
                         style={ {
                             margin: '16px 0',
+                            width: "100%"
                         } }
                     >
                         <Breadcrumb.Item>GenieWeb</Breadcrumb.Item>
@@ -60,6 +68,7 @@ const Exam = () => {
                             minHeight: "80vh",
                             background: colorBgContainer,
                             borderRadius: borderRadiusLG,
+                            maxWidth: "1200px",
                             display: "flex",
                             flexWrap: "wrap",
                             justifyContent: "space-between"
@@ -74,151 +83,49 @@ const Exam = () => {
                                 height: "100%",
                                 display: "flex",
                                 flexWrap: "wrap",
-                                justifyContent: "center"
+                                justifyContent: "space-between"
                             } }>
-                                <Card
-                                    extra={<a href="#">Start</a>}
-                                    title="HTML"
-                                    style={ { width: "350px", textAlign: "center", margin: "20px" } }
-                                >
-                                    <div style={ { display: "flex", justifyContent: "space-between" } }>
-                                        <div style={ { width: "100px", height: "100px" } }>
-                                            <img style={ { width: "100%", height: "100%", objectFit: "cover" } }
-                                                 src={ html_SVG } alt="Html"/>
-                                        </div>
-                                        <div style={ {
-                                            width: "200px",
-                                            height: "100px",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            flexDirection: "column"
-                                        } }>
-                                            <Paragraph
-                                                style={ { display: "flex", alignItems: "center" } }
-                                            >
-                                                <img style={ { width: "25px", height: "25px" } }
-                                                     src={ level_SVG } alt="level"/>
-                                                <span style={ { margin: "0 10px 0 5px" } }>:</span>Easy
-                                            </Paragraph>
-                                            <Paragraph
-                                                style={ { display: "flex", alignItems: "center" } }
-                                            >
-                                                <img style={ { width: "25px", height: "25px" } }
-                                                     src={ time_SVG } alt="time"/>
-                                                <span style={ { margin: "0 10px 0 5px" } }>:</span>30m
-                                            </Paragraph>
-                                        </div>
-                                    </div>
-                                </Card>
 
-                                <Card
-                                    extra={<a href="#">Start</a>}
-                                    title="CSS"
-                                    style={ { width: "350px", textAlign: "center", margin: "20px" } }
-                                >
-                                    <div style={ { display: "flex", justifyContent: "space-between" } }>
-                                        <div style={ { width: "100px", height: "100px" } }>
-                                            <img style={ { width: "100%", height: "100%", objectFit: "cover" } }
-                                                 src={ css_SVG } alt="Css"/>
-                                        </div>
-                                        <div style={ {
-                                            width: "200px",
-                                            height: "100px",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            flexDirection: "column"
-                                        } }>
-                                            <Paragraph
-                                                style={ { display: "flex", alignItems: "center" } }
-                                            >
-                                                <img style={ { width: "25px", height: "25px" } }
-                                                     src={ level_SVG } alt="level"/>
-                                                <span style={ { margin: "0 10px 0 5px" } }>:</span>Medium
-                                            </Paragraph>
-                                            <Paragraph
-                                                style={ { display: "flex", alignItems: "center" } }
-                                            >
-                                                <img style={ { width: "25px", height: "25px" } }
-                                                     src={ time_SVG } alt="time"/>
-                                                <span style={ { margin: "0 10px 0 5px" } }>:</span>45m
-                                            </Paragraph>
-                                        </div>
-                                    </div>
-                                </Card>
-
-                                <Card
-                                    extra={<a href="#">Start</a>}
-                                    title="JavaScript"
-                                    style={ { width: "350px", textAlign: "center", margin: "20px" } }
-                                >
-                                    <div style={ { display: "flex", justifyContent: "space-between" } }>
-                                        <div style={ { width: "100px", height: "100px" } }>
-                                            <img style={ { width: "100%", height: "100%", objectFit: "cover" } }
-                                                 src={ js_SVG } alt="JavaScript"/>
-                                        </div>
-                                        <div style={ {
-                                            width: "200px",
-                                            height: "100px",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            flexDirection: "column"
-                                        } }>
-                                            <Paragraph
-                                                style={ { display: "flex", alignItems: "center" } }
-                                            >
-                                                <img style={ { width: "25px", height: "25px" } }
-                                                     src={ level_SVG } alt="level"/>
-                                                <span style={ { margin: "0 10px 0 5px" } }>:</span>Medium
-                                            </Paragraph>
-                                            <Paragraph
-                                                style={ { display: "flex", alignItems: "center" } }
-                                            >
-                                                <img style={ { width: "25px", height: "25px" } }
-                                                     src={ time_SVG } alt="time"/>
-                                                <span style={ { margin: "0 10px 0 5px" } }>:</span>45m
-                                            </Paragraph>
-                                        </div>
-                                    </div>
-                                </Card>
-
-                                <Card
-                                    extra={<a href="#">Start</a>}
-                                    title="JavaScript"
-                                    style={ { width: "350px", textAlign: "center", margin: "20px" } }
-                                >
-                                    <div style={ { display: "flex", justifyContent: "space-between" } }>
-                                        <div style={ { width: "100px", height: "100px" } }>
-                                            <img style={ { width: "100%", height: "100%", objectFit: "cover" } }
-                                                 src={ js_SVG } alt="JavaScript"/>
-                                        </div>
-                                        <div style={ {
-                                            width: "200px",
-                                            height: "100px",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            flexDirection: "column"
-                                        } }>
-                                            <Paragraph
-                                                style={ { display: "flex", alignItems: "center" } }
-                                            >
-                                                <img style={ { width: "25px", height: "25px" } }
-                                                     src={ level_SVG } alt="level"/>
-                                                <span style={ { margin: "0 10px 0 5px" } }>:</span>Hard
-                                            </Paragraph>
-                                            <Paragraph
-                                                style={ { display: "flex", alignItems: "center" } }
-                                            >
-                                                <img style={ { width: "25px", height: "25px" } }
-                                                     src={ time_SVG } alt="time"/>
-                                                <span style={ { margin: "0 10px 0 5px" } }>:</span>1h
-                                            </Paragraph>
-                                        </div>
-                                    </div>
-                                </Card>
+                                {
+                                    exams.map(exam => {
+                                        return <Card
+                                                    key={uuidv4()}
+                                                    extra={<h1 onClick={() => navigate(exam.url)} style={{cursor: "pointer",fontSize: "15px", color: "#1677ff"}} >Start</h1>}
+                                                    title={exam.name}
+                                                    style={ { width: "350px", textAlign: "center", margin: "20px" } }
+                                                >
+                                                    <div style={ { display: "flex", justifyContent: "space-between" } }>
+                                                        <div style={ { width: "100px", height: "100px" } }>
+                                                            <img style={ { width: "100%", height: "100%", objectFit: "cover" } }
+                                                                src={ exam.icon } alt={exam.name}/>
+                                                        </div>
+                                                        <div style={ {
+                                                            width: "200px",
+                                                            height: "100px",
+                                                            display: "flex",
+                                                            justifyContent: "center",
+                                                            alignItems: "center",
+                                                            flexDirection: "column"
+                                                        } }>
+                                                            <Paragraph
+                                                                style={ { display: "flex", alignItems: "center" } }
+                                                            >
+                                                                <img style={ { width: "25px", height: "25px" } }
+                                                                    src={ level_SVG } alt="level"/>
+                                                                <span style={ { margin: "0 10px 0 5px" } }>:</span>{exam.level}
+                                                            </Paragraph>
+                                                            <Paragraph
+                                                                style={ { display: "flex", alignItems: "center" } }
+                                                            >
+                                                                <img style={ { width: "25px", height: "25px" } }
+                                                                    src={ time_SVG } alt="time"/>
+                                                                <span style={ { margin: "0 10px 0 5px" } }>:</span>{exam.duration}
+                                                            </Paragraph>
+                                                        </div>
+                                                    </div>
+                                                </Card>
+                                    })
+                                }
                             </div>
                         </Card>
                     </div>

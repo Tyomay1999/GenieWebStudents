@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "../styles/logicTest.module.scss"
+import styles from "../styles/exam.module.scss"
 import { useParams } from "react-router";
-import { LogicTestTimer } from "./timer";
-import { Button, message, Steps, theme } from 'antd';
-import LogicTestCard from "./card";
-import { addAnswer, changeAnswer, clearSelectedAnswer, selectAnswer } from "../../../Redux/Slices/logicTest";
+import { ExamTestTimer } from "./timer";
+import { Button, Steps, theme } from 'antd';
+import ExamCard from "./card";
+import { addAnswer, changeAnswer, clearSelectedAnswer, selectAnswer } from "../../../Redux/Slices/exams";
 
 
-const LogicTest = () => {
+const ExamTest = () => {
     const dispatch = useDispatch()
     const params = useParams()
     // console.log(params.id)
-    const logicTests = useSelector( state => state.logicTest.steps )
-    const answers = useSelector( state => state.logicTest.answers )
+    const questions = useSelector( state => state.exams.selectedExam.questions )
+    const exam = useSelector( state => state.exams.selectedExam )
+    const selectedAnswer = useSelector( state => state.exams.selected_answer )
+    const answers = useSelector( state => state.exams.answers )
     const { token } = theme.useToken();
     const [ current, setCurrent ] = useState( 0 );
-    const selectedAnswer = useSelector( state => state.logicTest.selected_answer )
 
     const time = new Date();
-    time.setSeconds( time.getSeconds() + 60 )
+    time.setSeconds( time.getSeconds() + 60 * exam.duration )
 
     useEffect( () => {
         if ( answers[ current ] ) {
@@ -40,14 +41,14 @@ const LogicTest = () => {
 
     const prev = () => {
         setCurrent( current - 1 );
-        dispatch( selectAnswer( answers.filter( answer => answer.id === logicTests[ current - 1 ].id )[ 0 ] ) )
+        dispatch( selectAnswer( answers.filter( answer => answer.id === questions[ current - 1 ].id )[ 0 ] ) )
     };
 
     const done = () => {
         console.log( [ ...answers, selectedAnswer ], "<--------------------------- SELECTED ANSWER" )
     };
 
-    const items = logicTests.map( ( item ) => ( {
+    const items = questions.map( ( item ) => ( {
         key: item.title,
         title: item.title,
     } ) );
@@ -69,25 +70,25 @@ const LogicTest = () => {
 
     return <div className={ styles.main }>
         <div className={ styles.timer }>
-            <LogicTestTimer expiryTimestamp={ time }/>
+            <ExamTestTimer expiryTimestamp={ time }/>
         </div>
         <div style={ { width: "100%", display: "flex", justifyContent: "center" } }>
             <Steps type="inline" current={ current } items={ items }/>
         </div>
         <div style={ contentStyle }>
-            <LogicTestCard logicTest={ logicTests[ current ] } question_index={ current }/>
+            <ExamCard examTest={ questions[ current ] } question_index={ current }/>
         </div>
         <div
             style={ {
                 marginTop: 24,
             } }
         >
-            { current < logicTests.length - 1 && (
+            { current < questions.length - 1 && (
                 <Button disabled={ !selectedAnswer?.answer } type="primary" onClick={ () => next() }>
                     Next
                 </Button>
             ) }
-            { current === logicTests.length - 1 && (
+            { current === questions.length - 1 && (
                 <Button disabled={ !selectedAnswer?.answer } type="primary" onClick={ () => done() }>
                     Done
                 </Button>
@@ -107,4 +108,4 @@ const LogicTest = () => {
 }
 
 
-export default LogicTest
+export default ExamTest

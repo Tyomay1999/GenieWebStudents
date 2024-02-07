@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import students  from "./Slices/students";
-import logicTest  from "./Slices/logicTest";
+import exams  from "./Slices/exams";
 
 
 const store = configureStore( {
     reducer: {
         students,
-        logicTest
+        exams
     }
 } )
 

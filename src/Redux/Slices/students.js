@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { fetchingDataWithAxiosMiddleware } from "./fetch"; //next js redux toolkit
+import { fetchingDataWithAxiosMiddleware } from "./fetch";
 import Connection from "../../Services/connections"
 import frontEnd_PNG from "../../Assets/Student/front-end.png";
 import student_PNG from "../../Assets/Student/student.png";

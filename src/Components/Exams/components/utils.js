@@ -1,16 +1,17 @@
-import { useDispatch } from "react-redux";
-import styles from "../styles/logicTest.module.scss";
+import React from "react";
+import styles from "../styles/exam.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { changeExamStatus } from "../../../Redux/Slices/exams";
 import { Button, Card } from "antd";
-import { changeExamStatus } from "../../../Redux/Slices/logicTest";
-import React, { useEffect } from "react";
 import { useTimer } from "react-timer-hook";
 
 export const Greeting = () => {
     const dispatch = useDispatch()
+    const exam = useSelector(state => state.exams.selectedExam)
 
     return <div className={ styles.message_container }>
         <Card
-            title="Welcome to Genie Web Student platform"
+            title="Welcome to Genie Web Exams platform"
             bordered={ false }
             style={ {
                 width: "350px",
@@ -19,7 +20,7 @@ export const Greeting = () => {
             } }
         >
             <p style={ { textAlign: "justify" } }>
-                Dear students, your upcoming exam is scheduled for <b>1 hour</b>.
+                Dear students, your upcoming exam is scheduled for <b>{exam.duration} {exam.duration_format}</b>.
                 Be well-prepared and focus. <br/><br/> <b>Good luck!</b> Success awaits your efforts.
             </p>
             <div style={ { width: "100%", display: "flex", justifyContent: "flex-end" } }>
