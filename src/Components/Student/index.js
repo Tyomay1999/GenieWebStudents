@@ -7,6 +7,9 @@ import frontEnd_PNG from "../../Assets/Student/front-end.png"
 import html_SVG from "../../Assets/Student/html.svg"
 import css_SVG from "../../Assets/Student/css.svg"
 import javaScript_SVG from "../../Assets/Student/js.svg"
+import { v4 as uuidv4 } from 'uuid';
+import { students } from "../../Redux/Slices/students";
+import { useSelector } from "react-redux";
 
 const { Header, Content, Footer } = Layout;
 const { Meta } = Card;
@@ -19,6 +22,22 @@ const Student = () => {
     } = theme.useToken();
     // TODO Check Loading
     const [ loading, setLoading ] = useState( false );
+    const student = useSelector( state => state.students.student )
+    const handlerPhoneNumberAM = ( phone = "" ) => {
+        const startNumber = "+374"
+        let phoneNumber = `${ startNumber } (${ phone.substring( phone.indexOf( startNumber ) + startNumber.length, phone.indexOf( startNumber ) + startNumber.length + 2 ) })`
+        for ( let i = ( phone.indexOf( startNumber ) + startNumber.length + 2 ); i < phone.length; i++ ) {
+            if ( i % 2 === 0 ) {
+                console.log( i, i % 2, i % 2 === 0 )
+                phoneNumber += `-${ phone[ i ] }`
+            } else {
+                phoneNumber += `${ phone[ i ] }`
+            }
+        }
+        return phoneNumber
+    }
+
+
     const onChange = ( checked ) => {
         setLoading( !checked );
     };
@@ -102,15 +121,16 @@ const Student = () => {
                                         alignItems: "center"
                                     } }>
                                         <Avatar style={ { width: "80px", height: "80px", objectFit: "cover" } }
-                                                src={ student_PNG }/>
+                                                src={ student.image }/>
                                     </div>
                                     <div style={ { display: "flex", flexDirection: "column" } }>
-                                        <Title level={ 4 }>Artyom Bordulanyuk</Title>
+                                        <Title level={ 4 }>{ student.name } { student.lastName }</Title>
                                         <Paragraph
-                                            copyable={ { text: 'artyom.bordulanyuk@gmail.com' } }>artyom.bordulanyuk@gmail.com</Paragraph>
-                                        <a href="tel: +37491730250"
-                                           style={ { color: "black", textDecoration: "none", fontSize: "18px" } }>+374
-                                            (91)73-05-50</a>
+                                            copyable={ { text: student.email } }>{ student.email }</Paragraph>
+                                        <a href={ student.phone }
+                                           style={ { color: "black", textDecoration: "none", fontSize: "18px" } }>
+                                            { handlerPhoneNumberAM( student.phone ) }
+                                        </a>
                                     </div>
                                 </div>
                             </Skeleton>
@@ -143,10 +163,10 @@ const Student = () => {
                                         marginBottom: "15px"
                                     } }>
                                         <Avatar style={ { width: "80px", height: "80px", objectFit: "cover" } }
-                                                src={ frontEnd_PNG }/>
+                                                src={ student.positionIcon }/>
                                     </div>
                                     <div style={ { display: "flex", flexDirection: "column" } }>
-                                        <Title level={ 4 }>Front-end developer</Title>
+                                        <Title level={ 4 }>{ student.position }</Title>
                                     </div>
                                 </div>
                             </Skeleton>
@@ -155,56 +175,35 @@ const Student = () => {
                             title="Lessons"
                             style={ { width: "100%", textAlign: "center", marginTop: "20px" } }
                         >
-                            <Card style={ { marginTop: "10px" } }>
-                                <div style={ { width: "100%", display: "flex", justifyContent: "space-between" } }>
-                                    <div style={ { width: "70px", height: "70px" } }>
-                                        <img style={ { width: "100%", height: "100%", objectFit: "cover" } }
-                                             src={ html_SVG } alt="html"/>
-                                    </div>
+                            {
+                                student.lessons.map( lesson => {
+                                    return <Card key={ uuidv4() } style={ { marginTop: "10px" } }>
+                                        <div style={ {
+                                            width: "100%",
+                                            display: "flex",
+                                            justifyContent: "space-between"
+                                        } }>
+                                            <div style={ { width: "70px", height: "70px" } }>
+                                                <img style={ { width: "100%", height: "100%", objectFit: "cover" } }
+                                                     src={ lesson.icon } alt="html"/>
+                                            </div>
 
-                                    <div style={ { display: "flex", alignItems: "center" } }>
-                                        <Title level={ 4 }>Html</Title>
-                                    </div>
+                                            <div style={ { display: "flex", alignItems: "center" } }>
+                                                <Title level={ 4 }>{ lesson.name }</Title>
+                                            </div>
 
-                                    <div style={ { display: "flex", alignItems: "center" } }>
-                                        <Title level={ 4 } style={ { color: "green" } }>Compilated</Title>
-                                    </div>
-                                </div>
-                            </Card>
-
-                            <Card style={ { marginTop: "10px" } }>
-                                <div style={ { width: "100%", display: "flex", justifyContent: "space-between" } }>
-                                    <div style={ { width: "70px", height: "70px" } }>
-                                        <img style={ { width: "100%", height: "100%", objectFit: "cover" } }
-                                             src={ css_SVG } alt="css"/>
-                                    </div>
-
-                                    <div style={ { display: "flex", alignItems: "center" } }>
-                                        <Title level={ 4 }>Css</Title>
-                                    </div>
-
-                                    <div style={ { display: "flex", alignItems: "center" } }>
-                                        <Title level={ 4 }>In progress</Title>
-                                    </div>
-                                </div>
-                            </Card>
-
-                            <Card style={ { marginTop: "10px" } }>
-                                <div style={ { width: "100%", display: "flex", justifyContent: "space-between" } }>
-                                    <div style={ { width: "70px", height: "70px" } }>
-                                        <img style={ { width: "100%", height: "100%", objectFit: "cover" } }
-                                             src={ javaScript_SVG } alt="JavaScript"/>
-                                    </div>
-
-                                    <div style={ { display: "flex", alignItems: "center" } }>
-                                        <Title level={ 4 }>JavaScript</Title>
-                                    </div>
-
-                                    <div style={ { display: "flex", alignItems: "center" } }>
-                                        <Title level={ 4 } style={ { color: "gray" } }>Waiting</Title>
-                                    </div>
-                                </div>
-                            </Card>
+                                            <div style={ { display: "flex", alignItems: "center" } }>
+                                                <Title level={ 4 }
+                                                       style={
+                                                           lesson.status === "Complicated" ?
+                                                               { color: "green" } : lesson.status === "Waiting" ?
+                                                                   { color: "gray" } : { color: "black" }
+                                                       }>{ lesson.status }</Title>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                } )
+                            }
                         </Card>
                     </div>
                 </Content>
