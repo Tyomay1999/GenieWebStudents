@@ -8,21 +8,20 @@ import { selectAnswer } from "../../../Redux/Slices/exams";
 
 const ExamCard = ( { examTest, question_index } ) => {
     const dispatch = useDispatch()
-    const selectedAnswer = useSelector(state => state.exams.selected_answer)
+    const selectedAnswer = useSelector( state => state.exams.selected_answer )
 
     const onChange = ( e ) => {
-        dispatch(selectAnswer({
+        dispatch( selectAnswer( {
             id: examTest.id,
-            questionTitle: examTest.questionTitle,
+            title: examTest.title,
             question: examTest.question,
-            answer: examTest.answers[ e.target.value - 1],
+            answer: examTest.answers[ e.target.value - 1 ],
             answer_index: e.target.value,
             question_index
-        }))
+        } ) )
     };
     return <>
         <Card
-            title={ examTest.questionTitle }
             bordered={ true }
             style={ {
                 // width: "100%",
@@ -30,11 +29,19 @@ const ExamCard = ( { examTest, question_index } ) => {
                 maxWidth: "500px",
                 minHeight: "300px",
                 display: "flex",
-                // justifyContent: "center",
+                justifyContent: "space-between",
                 alignItems: "center",
                 flexDirection: "column",
             } }>
-            <div>
+            <div
+                style={ {
+                    width: "100%",
+                    height: "200px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    flexDirection: "column",
+                } }
+            >
                 <p style={ { marginBottom: "15px", fontWeight: "bold" } }>
                     { examTest.question }
                 </p>
@@ -42,6 +49,7 @@ const ExamCard = ( { examTest, question_index } ) => {
                     style={ {
                         display: "flex",
                         flexDirection: "column",
+                        marginLeft: "20px"
                     } }
                     onChange={ onChange }
                     value={ selectedAnswer?.answer_index || 0 }

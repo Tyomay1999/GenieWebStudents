@@ -74,14 +74,15 @@ export const exams = createSlice( {
             },
         ],
         selectedExam: {
-            name: "logicTest",
             duration: 30,
+            icon: js_SVG,
+            level: "Hard",
+            name: "logicTest",
             duration_format: "minutes",
             questions: [
                 {
                     id: 1,
-                    title: '',
-                    questionTitle: "Logical Deduction",
+                    title: "Logical Deduction",
                     question: "If all cats are mammals and Fluffy is a cat, what can be logically concluded about Fluffy?",
                     answers: [
                         "A) Fluffy is a mammal.",
@@ -92,8 +93,7 @@ export const exams = createSlice( {
                 },
                 {
                     id: 2,
-                    title: '',
-                    questionTitle: "Pattern Recognition",
+                    title: "Pattern Recognition",
                     question: "Identify the next item in the series: Square, Circle, Triangle, __?",
                     answers: [
                         "A) Pentagon",
@@ -104,8 +104,7 @@ export const exams = createSlice( {
                 },
                 {
                     id: 3,
-                    title: '',
-                    questionTitle: "Word Relationships",
+                    title: "Word Relationships",
                     question: "Choose the word that does not belong: Carrot, Apple, Orange, Chair.",
                     answers: [
                         "A) Carrot",
@@ -116,8 +115,7 @@ export const exams = createSlice( {
                 },
                 {
                     id: 4,
-                    title: '',
-                    questionTitle: "Analogies",
+                    title: "Analogies",
                     question: "Complete the analogy: Sun is to Day as Moon is to __?",
                     answers: [
                         "A) Dark",
@@ -126,11 +124,11 @@ export const exams = createSlice( {
                         "D) Eclipse"
                     ],
                 }
-          ]
+            ]
         },
         selected_answer: {
             id: null,
-            questionTitle: "",
+            title: "",
             question: "",
             answer: "",
             answer_index: null,
@@ -139,27 +137,27 @@ export const exams = createSlice( {
         answers: []
     },
     reducers: {
-        changeExamStatus: (state, action) => {
+        changeExamStatus: ( state, action ) => {
             state.exam_status = action.payload
         },
-        selectAnswer: (state, action) => {
+        selectAnswer: ( state, action ) => {
             state.selected_answer = action.payload
         },
-        clearSelectedAnswer: (state) => {
+        clearSelectedAnswer: ( state ) => {
             state.selected_answer = {
                 id: null,
-                questionTitle: "",
+                title: "",
                 question: "",
                 answer: "",
                 answer_index: null
             }
         },
         changeAnswer: ( state, action ) => {
-            state.answers[state.selected_answer.question_index] = action.payload
+            state.answers[ state.selected_answer.question_index ] = action.payload
         },
-        addAnswer: (state) => {
-            state.answers.push(state.selected_answer)
-        }   
+        addAnswer: ( state ) => {
+            state.answers.push( state.selected_answer )
+        }
     },
     extraReducers: ( builder ) => {
 

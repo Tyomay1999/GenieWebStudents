@@ -7,7 +7,7 @@ class Service {
     }
 
 
-    StudentsAll(  ) {
+    StudentsAll() {
         return `${ this.server_url }/admin/students`
     }
 
@@ -16,11 +16,23 @@ class Service {
     }
 
     SignUp() {
-        return `${ this.server_url }/login`
+        return `${ this.server_url }/education/students/login`
     }
 
     CheckAccount() {
-        return `${ this.server_url }/check`
+        return `${ this.server_url }/education/students/check`
+    }
+
+    GET_QR( id = '' ) {
+        return `${ this.server_url }/qrs/${ id }`
+    }
+
+    RegisterStudent() {
+        return `${ this.server_url }/qrs/student`
+    }
+
+    Scan( token = "" ) {
+        return `${ this.server_url }/qrs/scan/${ token }`
     }
 }
 

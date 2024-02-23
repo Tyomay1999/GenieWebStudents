@@ -172,7 +172,7 @@ const Student = () => {
                             </Skeleton>
                         </Card>
                         <Card
-                            title="Lessons"
+                            title="Exams"
                             style={ { width: "100%", textAlign: "center", marginTop: "20px" } }
                         >
                             {
