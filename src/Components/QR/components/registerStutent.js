@@ -78,10 +78,9 @@ const RegisterStudent = ( { info, setProcess } ) => {
         register( data ).then( resp => {
             console.log( resp )
             if ( resp?.message === "success" ) {
-                setProcess( "Finish" )
+                setProcess( "finish" )
             }
         } )
-        console.log( data, "<------------------ DATA" )
     };
     return <Form
         name="form_item_path" layout="vertical" onFinish={ onFinish }
