@@ -12,6 +12,11 @@ const Auth = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+
+    const forgotPassword = () => {
+        navigate("/forgot")
+    }
+
     const onFinish = ( values ) => {
         dispatch(signUp({
             account: {
@@ -71,16 +76,11 @@ const Auth = () => {
                 <Input.Password/>
             </Form.Item>
 
-            {/*<Form.Item*/}
-            {/*    name="remember"*/}
-            {/*    valuePropName="checked"*/}
-            {/*    wrapperCol={ {*/}
-            {/*        offset: 8,*/}
-            {/*        span: 16,*/}
-            {/*    } }*/}
-            {/*>*/}
-            {/*    <Checkbox>Remember me</Checkbox>*/}
-            {/*</Form.Item>*/}
+            <div style={{margin: "20px",width: "100%",display: 'flex', justifyContent: "flex-end"}}>
+                <Button onClick={forgotPassword} type="link">
+                    Forgot your password?
+                </Button>
+            </div>
 
             <Form.Item
                 wrapperCol={ {

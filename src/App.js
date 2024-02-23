@@ -6,6 +6,9 @@ import Main from "./Components/Main";
 import Auth from "./Components/Auth/auth";
 import QR from "./Components/QR";
 import StudentVerification from "./Components/QR/components/verifyStudent";
+import ForgotPassword from "./Components/Auth/forgotPassword";
+import ResetStudentPassword from "./Components/Auth/resetPassword";
+import UnPhysicalCert  from "./Components/Modal";
 
 
 const App = () => {
@@ -15,6 +18,8 @@ const App = () => {
         { id: 2, path: "/exam/:lesson/:level/:token", element: <Exams/>, name: "Exams" },
         { id: 3, path: "/qr/:id", element: <QR/>, name: "qr" },
         { id: 4, path: "/verify/:token", element: <StudentVerification/>, name: "Student verification" },
+        { id: 5, path: "/forgot", element: <ForgotPassword />, name: "Forgot Password" },
+        { id: 6, path: "/reset/:token", element: <ResetStudentPassword />, name: "Reset Password" },
     ]
 
     return (

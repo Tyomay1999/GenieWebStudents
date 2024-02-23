@@ -6,31 +6,21 @@ import student_PNG from "../../Assets/Student/student.png";
 import html_SVG from "../../Assets/Student/html.svg";
 import css_SVG from "../../Assets/Student/css.svg";
 import javaScript_SVG from "../../Assets/Student/js.svg";
+import { setLoadingState } from "./loading";
 
 
-export const getStudents = createAsyncThunk(
-    'students/getAll',
-    async () => {
+export const getStudentInfo = createAsyncThunk(
+    'students/studentInfo',
+    async ( data, action ) => {
+        action.dispatch( setLoadingState( true ) )
         const response = await fetchingDataWithAxiosMiddleware(
             "GET",
-            Connection.StudentsAll(),
+            Connection.GetStudentInfo(),
         );
+        setTimeout( () => {
+            action.dispatch( setLoadingState( false ) )
+        }, 1000 )
         return response.data.students;
-    }
-);
-
-export const sendEmail = createAsyncThunk(
-    'students/sendEmail',
-    async ( data ) => {
-
-        const formData = new FormData()
-        formData.append( "email", data.email )
-        const response = await fetchingDataWithAxiosMiddleware(
-            "POST",
-            Connection.sendEmail(),
-            formData
-        );
-        return response.data.message;
     }
 );
 
@@ -72,16 +62,26 @@ export const students = createSlice( {
     reducers: {},
     extraReducers: ( builder ) => {
         builder
-            .addCase( getStudents.fulfilled, ( state, action ) => {
-                state.all = action.payload;
-            } );
-        builder
-            .addCase( sendEmail.fulfilled, ( state, action ) => {
-                console.log( action.payload, "<-------------- sendEmail PAYLOAD" )
-                // state.all = action.payload;
+            .addCase( getStudentInfo.fulfilled, ( state, action ) => {
+                let payload = {}
+                for ( let prop in action.payload ) {
+                    if ( action.payload[ prop ] ) {
+                        payload[ prop ] = action.payload[ prop ]
+                    }
+                }
+                payload[ "lessons" ] = state.student.lessons
+                if ( !payload[ "positionIcon" ] ) {
+                    payload[ "positionIcon" ] = frontEnd_PNG
+                }
+                if ( !payload[ "image" ] ) {
+                    payload[ "image" ] = student_PNG
+                }
+
+                state.student = payload;
+
             } );
     }
 } )
 
-export const {} = students.actions
+// export const {} = students.actions
 export default students.reducer

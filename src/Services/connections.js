@@ -6,15 +6,6 @@ class Service {
         // this.local_server_url = process.env.REACT_APP_LOCAL_SERVER_URL;
     }
 
-
-    StudentsAll() {
-        return `${ this.server_url }/admin/students`
-    }
-
-    sendEmail() {
-        return `${ this.server_url }/admin/students/send_email`
-    }
-
     SignUp() {
         return `${ this.server_url }/education/students/login`
     }
@@ -31,8 +22,21 @@ class Service {
         return `${ this.server_url }/qrs/student`
     }
 
+    ResetLinkToEmail() {
+        return `${ this.server_url }/education/students/reset/link`
+    }
+
+    ResetPassword() {
+        return `${ this.server_url }/education/students/reset/pass`
+    }
+
     Scan( token = "" ) {
         return `${ this.server_url }/qrs/scan/${ token }`
+    }
+
+
+    GetStudentInfo(){
+        return `${this.server_url}/education/students/info`
     }
 }
 

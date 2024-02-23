@@ -8,6 +8,8 @@ import { Card } from "antd";
 import RegisterStudent from "./components/registerStutent";
 import Greeting from "./components/greeting";
 import { FinishRegistration } from "./components/utils";
+import { useDispatch } from "react-redux";
+import { setLoadingState } from "../../Redux/Slices/loading";
 
 
 const get_qr_info = async (id) => {
@@ -24,15 +26,17 @@ const get_qr_info = async (id) => {
 
 
 const QR = () => {
+    const dispatch = useDispatch()
     const params = useParams()
     const [userInfo, setUserInfo] = useState(null)
     const [process, setProcess] = useState("greeting")
 
     useEffect(() => {
         if (params.id) {
+            dispatch(setLoadingState(true))
             get_qr_info(params.id).then(data => {
                 if (data.qr_info === "USED") {
-                    setProcess(data.qr)
+                    setProcess(data.qr_info)
 
                     setTimeout(function () {
                         window.location.href = "https://www.genieweb.org";
@@ -40,9 +44,10 @@ const QR = () => {
 
                 }
                 setUserInfo(data)
+                dispatch(setLoadingState(false))
             })
         }
-    }, [get_qr_info])
+    }, [get_qr_info, dispatch])
 
 
     return <div className={styles.main}>
@@ -50,7 +55,7 @@ const QR = () => {
         <Card title={
             process === "greeting" ? "Attention: You've Found a QR Code!" :
                 process === "registration" ? "Registration Form" :
-                    process === "finish" ? "Successfuly Registered" : ""
+                    process === "finish" ? "Successfully Registered" : ""
 
         } extra={
             process === "greeting" && <span

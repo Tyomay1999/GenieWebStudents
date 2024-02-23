@@ -2,6 +2,8 @@ import { Button, Form, Input, InputNumber } from "antd";
 import React from "react";
 import { fetchingDataWithAxiosMiddleware } from "../../../Redux/Slices/fetch";
 import Connection from "../../../Services/connections";
+import { setLoadingState } from "../../../Redux/Slices/loading";
+import { useDispatch } from "react-redux";
 
 
 const MyFormItemContext = React.createContext( [] );
@@ -63,6 +65,7 @@ const register = async ( data ) => {
 
 
 const RegisterStudent = ( { info, setProcess } ) => {
+    const dispatch = useDispatch()
     const onFinish = ( value ) => {
         let data = {
             qr_id: info.qr_id,
@@ -74,11 +77,11 @@ const RegisterStudent = ( { info, setProcess } ) => {
                 data[ prop ] = value[ prop ]
             }
         }
-
+        dispatch( setLoadingState( true ) )
         register( data ).then( resp => {
-            console.log( resp )
             if ( resp?.message === "success" ) {
                 setProcess( "finish" )
+                dispatch( setLoadingState( false ) )
             }
         } )
     };

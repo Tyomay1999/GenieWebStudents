@@ -13,23 +13,28 @@ import Student from "../Student";
 import InfoMessage from "../Info/info";
 import ContactUS from "../ContactUS";
 import Exam from "../Exams/exam";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { checkAccount } from "../../Redux/Slices/auth";
 import { useNavigate } from "react-router";
 import Logout from "../Auth/logoutMessage";
+import { getStudentInfo } from "../../Redux/Slices/students";
+import UnPhysicalCert from "../Modal";
+import Loading from "../Loading";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title } = Typography;
 
 
-function getItem( label, key, icon, selectItemOfMenu, children ) {
+function getItem( label, key, icon, selectItemOfMenu, physicalCert, children ) {
     return {
         key,
         icon,
         children,
         label,
         onClick: () => {
-            selectItemOfMenu( label )
+            if ( physicalCert ) {
+                selectItemOfMenu( label )
+            }
         }
     };
 }
@@ -38,20 +43,24 @@ function getItem( label, key, icon, selectItemOfMenu, children ) {
 const Main = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [ collapsed, setCollapsed ] = useState( true );
+    const [ selectedMenuItem, selectItemOfMenu ] = useState( "Student" );
+    const student = useSelector( state => state.students.student )
+    const { physicalCert } = student
 
-    const [ collapsed, setCollapsed ] = useState( false );
-    const [ selectedMenuItem, selectItemOfMenu ] = useState( "Messages" );
+
     useEffect( () => {
+        dispatch( getStudentInfo() )
         dispatch( checkAccount( navigate ) )
-    }, [] )
+    }, [ dispatch ] )
 
 
     const items = [
-        getItem( 'Student', '1', <UserOutlined/>, selectItemOfMenu ),
-        getItem( 'Messages', '2', <MessageOutlined/>, selectItemOfMenu ),
-        getItem( 'Info', '3', <InfoCircleFilled/>, selectItemOfMenu ),
-        getItem( 'Exams', '4', <HourglassOutlined/>, selectItemOfMenu ),
-        getItem( 'Logout', '5', <LogoutOutlined/>, selectItemOfMenu ),
+        getItem( 'Student', '1', <UserOutlined/>,  selectItemOfMenu, physicalCert ),
+        getItem( 'Messages', '2', <MessageOutlined/>,  selectItemOfMenu, physicalCert ),
+        getItem( 'Info', '3', <InfoCircleFilled/>,  selectItemOfMenu, physicalCert ),
+        getItem( 'Exams', '4', <HourglassOutlined/>,  selectItemOfMenu, physicalCert ),
+        getItem( 'Logout', '5', <LogoutOutlined/>,  selectItemOfMenu, physicalCert ),
         // getItem( 'User', 'sub1', <UserOutlined/>, [
         //     getItem( 'Tom', '3' ),
         //     getItem( 'Bill', '4' ),
@@ -83,7 +92,7 @@ const Main = () => {
                     />
                     <Title style={ collapsed ? { display: "none" } : { color: "white" } }>Genie Web</Title>
                 </div>
-                <Menu theme="dark" defaultSelectedKeys={ [ '2' ] } mode="inline" items={ items }/>
+                <Menu theme="dark" defaultSelectedKeys={ [ '1' ] } mode="inline" items={ items }/>
             </Sider>
 
             {
@@ -91,8 +100,11 @@ const Main = () => {
                     selectedMenuItem === "Messages" ? <InfoMessage/> :
                         selectedMenuItem === "Info" ? <ContactUS/> :
                             selectedMenuItem === "Exams" ? <Exam/> :
-                                selectedMenuItem === "Logout" ? <Logout cancel={() => selectItemOfMenu("Student")} /> : <></>
+                                selectedMenuItem === "Logout" ?
+                                    <Logout cancel={ () => selectItemOfMenu( "Student" ) }/> : <></>
             }
+            <UnPhysicalCert/>
+            <Loading />
         </Layout>
     );
 };

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchingDataWithAxiosMiddleware } from "./fetch";
 import dataControl from "../../Services/dataControl";
 import Connections from "../../Services/connections";
+import { setLoadingState } from "./loading";
 
 
 export const checkAccount = createAsyncThunk(
@@ -24,7 +25,8 @@ export const checkAccount = createAsyncThunk(
 
 export const signUp = createAsyncThunk(
     "authentication/signUp",
-    async ( payload ) => {
+    async ( payload, action ) => {
+        action.dispatch(setLoadingState(true))
         const response = await fetchingDataWithAxiosMiddleware(
             "POST",
             Connections.SignUp(),
