@@ -41,13 +41,12 @@ function getItem( label, key, icon, selectItemOfMenu, physicalCert, children ) {
 
 
 const Main = () => {
+    //TODO existing bug in server error (500)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [ collapsed, setCollapsed ] = useState( true );
     const [ selectedMenuItem, selectItemOfMenu ] = useState( "Student" );
     const student = useSelector( state => state.students.student )
-
-    console.log(student, "<________________________+++++++")
 
 
     useEffect( () => {

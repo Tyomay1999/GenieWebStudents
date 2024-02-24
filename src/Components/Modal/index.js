@@ -20,6 +20,7 @@ const UnPhysicalCert = () => {
         return <></>
     }
 
+    //TODO check routeing in unauthenticated mod
 
     return <div className={ style.main }>
         <Card title=""

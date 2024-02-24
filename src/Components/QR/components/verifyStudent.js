@@ -68,7 +68,7 @@ const StudentVerification = () => {
             dispatch( setLoadingState( false ) )
         } )
     }
-
+    //TODO password regexp && routeing bug
     return <div className={ styles.main }>
 
         <Card title={ process[ 0 ].toUpperCase() + process.substring( 1 ) }

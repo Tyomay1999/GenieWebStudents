@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { fetchingDataWithAxiosMiddleware } from "./fetch";
-import Connection from "../../Services/connections";
-import html_SVG from "../../Assets/Student/html.svg"
-import css_SVG from "../../Assets/Student/css.svg"
-import js_SVG from "../../Assets/Student/js.svg"
+import { fetchingDataWithAxiosMiddleware } from "../fetch";
+import Connection from "../../../Services/connections";
+import html_SVG from "../../../Assets/Student/html.svg"
+import css_SVG from "../../../Assets/Student/css.svg"
+import js_SVG from "../../../Assets/Student/js.svg"
 
 
 export const getExams = createAsyncThunk(
@@ -11,9 +11,9 @@ export const getExams = createAsyncThunk(
     async () => {
         const response = await fetchingDataWithAxiosMiddleware(
             "GET",
-            Connection.StudentsAll(),
+            Connection.GetExams(),
         );
-        return response.data.students;
+        return response.data.exams;
     }
 );
 
@@ -160,7 +160,9 @@ export const exams = createSlice( {
         }
     },
     extraReducers: ( builder ) => {
-
+        builder.addCase( getExams.fulfilled, ( state, action ) => {
+            state.all = action.payload
+        } )
     }
 } )
 

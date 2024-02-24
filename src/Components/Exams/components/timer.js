@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTimer } from 'react-timer-hook';
 import { useDispatch } from "react-redux";
-import { changeExamStatus } from "../../../Redux/Slices/exams";
+import { changeExamStatus } from "../../../Redux/Slices/Exams/exams";
 
 export const ExamTestTimer = ({ expiryTimestamp }) => {
     const dispatch = useDispatch()

@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../styles/exam.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { changeExamStatus } from "../../../Redux/Slices/exams";
+import { changeExamStatus } from "../../../Redux/Slices/Exams/exams";
 import { Button, Card } from "antd";
 import { useTimer } from "react-timer-hook";
 

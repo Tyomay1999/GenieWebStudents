@@ -8,6 +8,7 @@ import { Greeting, FinishExam, RedirectUserToGeneralSite } from "./components/ut
 
 
 const Exam = () => {
+    //TODO check data
     const dispatch = useDispatch()
     const params = useParams()
     const { token, level, lesson } = params

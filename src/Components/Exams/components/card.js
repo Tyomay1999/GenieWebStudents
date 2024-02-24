@@ -3,7 +3,7 @@ import { Card } from 'antd';
 import { Radio } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from "react-redux";
-import { selectAnswer } from "../../../Redux/Slices/exams";
+import { selectAnswer } from "../../../Redux/Slices/Exams/exams";
 
 
 const ExamCard = ( { examTest, question_index } ) => {

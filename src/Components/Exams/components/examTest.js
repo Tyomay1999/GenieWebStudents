@@ -5,7 +5,7 @@ import { useParams } from "react-router";
 import { ExamTestTimer } from "./timer";
 import { Button, Steps, theme } from 'antd';
 import ExamCard from "./card";
-import { addAnswer, changeAnswer, clearSelectedAnswer, selectAnswer } from "../../../Redux/Slices/exams";
+import { addAnswer, changeAnswer, clearSelectedAnswer, selectAnswer } from "../../../Redux/Slices/Exams/exams";
 
 
 const ExamTest = () => {
@@ -43,6 +43,7 @@ const ExamTest = () => {
     };
 
     const done = () => {
+        console.log("Clicked on done")
     };
 
     const items = questions.map( ( item ) => ( {
