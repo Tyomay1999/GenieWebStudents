@@ -5,18 +5,18 @@ import { useSelector } from "react-redux";
 
 const UnPhysicalCert = () => {
     const student = useSelector( state => state.students.student )
-    const { physicalCert, name, lastName } = student
+
 
     useEffect( () => {
-        if ( !physicalCert ) {
+        if ( !student?.physicalCert ) {
             document?.body?.classList?.add( "modalOpen" )
         } else {
             document?.body?.classList?.remove( "modalOpen" )
         }
-    }, [ physicalCert ] )
+    }, [ student?.physicalCert ] )
 
 
-    if ( physicalCert ) {
+    if ( student?.physicalCert ) {
         return <></>
     }
 
@@ -33,7 +33,7 @@ const UnPhysicalCert = () => {
                   alignItems: "center"
               } }>
             <h2 style={ { fontSize: "15px", textAlign: "start", margin: "10px 0" } }>
-                Dear { `${ name } ${ lastName }` } ,
+                Dear { `${ student?.name || "Genie Web" } ${ student?.lastName || "Student" }` } ,
             </h2>
             <p style={ { margin: "20px 0", textAlign: "justify" } }>
                 To ensure secure access to GenieWeb's platform features, physical certification at our

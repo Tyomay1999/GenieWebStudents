@@ -9,15 +9,19 @@ export const checkAccount = createAsyncThunk(
     "authentication/checkingAccount",
     async ( navigate ) => {
 
-        const response = await fetchingDataWithAxiosMiddleware(
-            "GET",
-            Connections.CheckAccount()
-        )
-
-        if ( response.data.authenticate ) {
-            navigate( '/' )
-        } else {
+        try {
+            const response = await fetchingDataWithAxiosMiddleware(
+                "GET",
+                Connections.CheckAccount()
+            )
+            if ( response.data.authenticate ) {
+                navigate( '/' )
+            } else {
+                navigate( '/auth' )
+            }
+        } catch ( e ){
             navigate( '/auth' )
+            dataControl.removeToken()
         }
     }
 )
@@ -44,27 +48,6 @@ export const auth = createSlice( {
     name: "authentication",
     initialState: {},
     reducers: {},
-    extraReducers: builder => {
-        builder.addCase( signUp.pending, ( state ) => {
-            console.log( "PENDING signUp" )
-        } )
-        builder.addCase( signUp.fulfilled, ( state ) => {
-            console.log( "fulfilled signUp" )
-        } )
-        builder.addCase( signUp.rejected, ( state ) => {
-            console.log( "rejected signUp" )
-        } )
-        builder.addCase( checkAccount.pending, ( state ) => {
-            console.log( "PENDING checkAccount" )
-        } )
-        builder.addCase( checkAccount.fulfilled, ( state ) => {
-            console.log( "fulfilled checkAccount" )
-        } )
-        builder.addCase( checkAccount.rejected, ( state ) => {
-            console.log( "rejected checkAccount" )
-        } )
-
-    }
 } )
 export const {} = auth.actions
 export default auth.reducer

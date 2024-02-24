@@ -43,7 +43,6 @@ const ExamTest = () => {
     };
 
     const done = () => {
-        console.log( [ ...answers, selectedAnswer ], "<--------------------------- SELECTED ANSWER" )
     };
 
     const items = questions.map( ( item ) => ( {

@@ -17,9 +17,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkAccount } from "../../Redux/Slices/auth";
 import { useNavigate } from "react-router";
 import Logout from "../Auth/logoutMessage";
-import { getStudentInfo } from "../../Redux/Slices/students";
 import UnPhysicalCert from "../Modal";
 import Loading from "../Loading";
+import { getStudentInfo } from "../../Redux/Slices/Student/asyncThunks";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title } = Typography;
@@ -46,7 +46,8 @@ const Main = () => {
     const [ collapsed, setCollapsed ] = useState( true );
     const [ selectedMenuItem, selectItemOfMenu ] = useState( "Student" );
     const student = useSelector( state => state.students.student )
-    const { physicalCert } = student
+
+    console.log(student, "<________________________+++++++")
 
 
     useEffect( () => {
@@ -56,11 +57,11 @@ const Main = () => {
 
 
     const items = [
-        getItem( 'Student', '1', <UserOutlined/>,  selectItemOfMenu, physicalCert ),
-        getItem( 'Messages', '2', <MessageOutlined/>,  selectItemOfMenu, physicalCert ),
-        getItem( 'Info', '3', <InfoCircleFilled/>,  selectItemOfMenu, physicalCert ),
-        getItem( 'Exams', '4', <HourglassOutlined/>,  selectItemOfMenu, physicalCert ),
-        getItem( 'Logout', '5', <LogoutOutlined/>,  selectItemOfMenu, physicalCert ),
+        getItem( 'Student', '1', <UserOutlined/>, selectItemOfMenu, student?.physicalCert ),
+        getItem( 'Messages', '2', <MessageOutlined/>, selectItemOfMenu, student?.physicalCert ),
+        getItem( 'Info', '3', <InfoCircleFilled/>, selectItemOfMenu, student?.physicalCert ),
+        getItem( 'Exams', '4', <HourglassOutlined/>, selectItemOfMenu, student?.physicalCert ),
+        getItem( 'Logout', '5', <LogoutOutlined/>, selectItemOfMenu, student?.physicalCert ),
         // getItem( 'User', 'sub1', <UserOutlined/>, [
         //     getItem( 'Tom', '3' ),
         //     getItem( 'Bill', '4' ),
@@ -104,7 +105,7 @@ const Main = () => {
                                     <Logout cancel={ () => selectItemOfMenu( "Student" ) }/> : <></>
             }
             <UnPhysicalCert/>
-            <Loading />
+            <Loading/>
         </Layout>
     );
 };

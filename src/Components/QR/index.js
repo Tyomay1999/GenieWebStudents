@@ -35,8 +35,8 @@ const QR = () => {
         if (params.id) {
             dispatch(setLoadingState(true))
             get_qr_info(params.id).then(data => {
-                if (data.qr_info === "USED") {
-                    setProcess(data.qr_info)
+                if (data?.qr_info === "USED") {
+                    setProcess(data?.qr_info)
 
                     setTimeout(function () {
                         window.location.href = "https://www.genieweb.org";

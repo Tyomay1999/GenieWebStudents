@@ -7,11 +7,11 @@ class Service {
     }
 
     SignUp() {
-        return `${ this.server_url }/education/students/login`
+        return `${ this.server_url }/student/login`
     }
 
     CheckAccount() {
-        return `${ this.server_url }/education/students/check`
+        return `${ this.server_url }/student/check`
     }
 
     GET_QR( id = '' ) {
@@ -23,11 +23,11 @@ class Service {
     }
 
     ResetLinkToEmail() {
-        return `${ this.server_url }/education/students/reset/link`
+        return `${ this.server_url }/student/reset/link`
     }
 
     ResetPassword() {
-        return `${ this.server_url }/education/students/reset/pass`
+        return `${ this.server_url }/student/reset/pass`
     }
 
     Scan( token = "" ) {
@@ -36,7 +36,7 @@ class Service {
 
 
     GetStudentInfo(){
-        return `${this.server_url}/education/students/info`
+        return `${this.server_url}/student/info`
     }
 }
 

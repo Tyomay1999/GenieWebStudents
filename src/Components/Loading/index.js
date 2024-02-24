@@ -9,7 +9,7 @@ const Loading = () => {
     const run = useSelector(state => state.loading.run)
 
     useEffect( () => {
-        if ( !run ) {
+        if ( run ) {
             document?.body?.classList?.add( "modalOpen" )
         } else {
             document?.body?.classList?.remove( "modalOpen" )

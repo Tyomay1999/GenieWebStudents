@@ -16,19 +16,6 @@ const Student = () => {
     // TODO Check Loading
     const [ loading, setLoading ] = useState( false );
     const student = useSelector( state => state.students.student )
-    const handlerPhoneNumberAM = ( phone = "" ) => {
-        const startNumber = "+374"
-        let phoneNumber = `${ startNumber } (${ phone.substring( phone.indexOf( startNumber ) + startNumber.length, phone.indexOf( startNumber ) + startNumber.length + 2 ) })`
-        for ( let i = ( phone.indexOf( startNumber ) + startNumber.length + 2 ); i < phone.length; i++ ) {
-            if ( i % 2 === 0 ) {
-                console.log( i, i % 2, i % 2 === 0 )
-                phoneNumber += `-${ phone[ i ] }`
-            } else {
-                phoneNumber += `${ phone[ i ] }`
-            }
-        }
-        return phoneNumber
-    }
 
 
     const onChange = ( checked ) => {
@@ -121,15 +108,20 @@ const Student = () => {
                                         alignItems: "center"
                                     } }>
                                         <Avatar style={ { width: "80px", height: "80px", objectFit: "cover" } }
-                                                src={ student.image }/>
+                                                src={ student?.image }/>
                                     </div>
                                     <div style={ { display: "flex", flexDirection: "column" } }>
-                                        <Title level={ 4 }>{ student.name } { student.lastName }</Title>
+                                        <Title level={ 4 }>{ student?.name } { student?.lastName }</Title>
                                         <Paragraph
-                                            copyable={ { text: student.email } }>{ student.email }</Paragraph>
-                                        <a href={ student.phone }
+                                            copyable={ { text: student?.email } }>
+                                            <a href={ `mailto:${ student?.email }` }
+                                               style={ { color: "black", textDecoration: "none", fontSize: "18px" } }>
+                                                { student?.email }
+                                            </a>
+                                        </Paragraph>
+                                        <a href={ `tel:0${ student?.teacher?.phone }` }
                                            style={ { color: "black", textDecoration: "none", fontSize: "18px" } }>
-                                            { handlerPhoneNumberAM( student.phone ) }
+                                            +374 { student?.phone }
                                         </a>
                                     </div>
                                 </div>
@@ -152,31 +144,52 @@ const Student = () => {
                                     justifyContent: "space-between"
                                 } }>
                                     <div style={ {
-                                        marginRight: "10px",
-                                        width: "100px",
-                                        padding: "5px",
-                                        border: "2px solid gray",
-                                        borderRadius: "80px",
+                                        width: "100%",
+                                        height: "100%",
                                         display: "flex",
-                                        justifyContent: "center",
                                         alignItems: "center",
-                                        marginBottom: "15px"
+                                        justifyContent: "space-between"
                                     } }>
-                                        <Avatar style={ { width: "80px", height: "80px", objectFit: "cover" } }
-                                                src={ student.positionIcon }/>
-                                    </div>
-                                    <div style={ { display: "flex", flexDirection: "column" } }>
-                                        <Title level={ 4 }>{ student.position }</Title>
+                                        <div style={ {
+                                            marginRight: "10px",
+                                            width: "100px",
+                                            padding: "5px",
+                                            border: "2px solid gray",
+                                            borderRadius: "80px",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center"
+                                        } }>
+                                            <Avatar style={ { width: "80px", height: "80px", objectFit: "cover" } }
+                                                    src={ //TODO check here
+                                                        student?.image
+                                                    }/>
+                                        </div>
+                                        <div style={ { display: "flex", flexDirection: "column" } }>
+                                            <Title
+                                                level={ 4 }>{ student?.teacher?.name } { student?.teacher?.lastName }</Title>
+                                            <Paragraph
+                                                copyable={ { text: student?.teacher?.email } }>
+                                                <a href={ `mailto:${ student?.teacher?.email }` }
+                                                   style={ { color: "black", textDecoration: "none", fontSize: "18px" } }>
+                                                    { student?.teacher?.email }
+                                                </a>
+                                            </Paragraph>
+                                            <a href={ `tel:0${ student?.teacher?.phone }` }
+                                               style={ { color: "black", textDecoration: "none", fontSize: "18px" } }>
+                                                +374 { student?.teacher?.phone }
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </Skeleton>
                         </Card>
                         <Card
-                            title="Exams"
+                            title={ student?.position || "Position" }
                             style={ { width: "100%", textAlign: "center", marginTop: "20px" } }
                         >
                             {
-                                student.lessons.map( lesson => {
+                                student?.lessons?.map( lesson => {
                                     return <Card key={ uuidv4() } style={ { marginTop: "10px" } }>
                                         <div style={ {
                                             width: "100%",
