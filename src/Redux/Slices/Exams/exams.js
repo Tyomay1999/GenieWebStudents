@@ -4,6 +4,7 @@ import Connection from "../../../Services/connections";
 import html_SVG from "../../../Assets/Student/html.svg"
 import css_SVG from "../../../Assets/Student/css.svg"
 import js_SVG from "../../../Assets/Student/js.svg"
+import { notification } from "antd";
 
 
 export const getExams = createAsyncThunk(
@@ -15,118 +16,63 @@ export const getExams = createAsyncThunk(
         );
         return response.data.exams;
     }
+)
+
+export const getExamInfo = createAsyncThunk(
+    'exams/getExamInfo',
+    async ( { token, navigate }, ) => {
+        try {
+            const formData = new FormData()
+            formData.append( "langId", "1" )
+            const response = await fetchingDataWithAxiosMiddleware(
+                "POST",
+                Connection.GetExamInfo( token ),
+                formData
+            )
+            return response.data.exam
+        } catch ( e ) {
+            navigate( "/" )
+            notification.error( {
+                placement: 'topRight',
+                message: "Exam not found",
+            } )
+        }
+    }
+);
+export const sendSelectedAnswers = createAsyncThunk(
+    'exams/sendSelectedAnswers',
+    async ( data, ) => {
+        try {
+            const formData = new FormData()
+            // formData.append( "langId", "1" )
+            data.answers.forEach( answer => {
+                formData.append( answer.id, answer.answer_index )
+            } )
+            const response = await fetchingDataWithAxiosMiddleware(
+                "POST",
+                Connection.SendExamSelectedAnswers( data?.student_id ),
+                formData
+            )
+            return response.data.approved
+        } catch ( e ) {
+            // navigate( "/" )
+            notification.error( {
+                placement: 'topRight',
+                message: e.message,
+            } )
+        }
+    }
 );
 
 
 export const exams = createSlice( {
     name: 'exams',
     initialState: {
-        exam_status: "visited",
-        all: [
-            {
-                icon: html_SVG,
-                name: "Html",
-                level: "Easy",
-                duration: "30m",
-                url: "/exam/html/easy/token"
-            },
-            {
-                icon: html_SVG,
-                name: "Html",
-                level: "Medium",
-                duration: "45m",
-                url: "/exam/html/medium/token"
-            },
-            {
-                icon: css_SVG,
-                name: "Css",
-                level: "Easy",
-                duration: "30m",
-                url: "/exam/css/easy/token"
-            },
-            {
-                icon: css_SVG,
-                name: "Css",
-                level: "Medium",
-                duration: "45m",
-                url: "/exam/css/medium/token"
-            },
-            {
-                icon: js_SVG,
-                name: "JavaScript",
-                level: "Css",
-                duration: "30m",
-                url: "/exam/js/easy/token"
-            },
-            {
-                icon: js_SVG,
-                name: "JavaScript",
-                level: "Medium",
-                duration: "45m",
-                url: "/exam/js/medium/token"
-            },
-            {
-                icon: js_SVG,
-                name: "JavaScript",
-                level: "Hard",
-                duration: "45m",
-                url: "/exam/js/hard/token"
-            },
-        ],
-        selectedExam: {
-            duration: 30,
-            icon: js_SVG,
-            level: "Hard",
-            name: "logicTest",
-            duration_format: "minutes",
-            questions: [
-                {
-                    id: 1,
-                    title: "Logical Deduction",
-                    question: "If all cats are mammals and Fluffy is a cat, what can be logically concluded about Fluffy?",
-                    answers: [
-                        "A) Fluffy is a mammal.",
-                        "B) Fluffy is a reptile.",
-                        "C) Fluffy is a bird.",
-                        "D) Fluffy is an amphibian."
-                    ],
-                },
-                {
-                    id: 2,
-                    title: "Pattern Recognition",
-                    question: "Identify the next item in the series: Square, Circle, Triangle, __?",
-                    answers: [
-                        "A) Pentagon",
-                        "B) Hexagon",
-                        "C) Rectangle",
-                        "D) Oval"
-                    ],
-                },
-                {
-                    id: 3,
-                    title: "Word Relationships",
-                    question: "Choose the word that does not belong: Carrot, Apple, Orange, Chair.",
-                    answers: [
-                        "A) Carrot",
-                        "B) Apple",
-                        "C) Orange",
-                        "D) Chair"
-                    ],
-                },
-                {
-                    id: 4,
-                    title: "Analogies",
-                    question: "Complete the analogy: Sun is to Day as Moon is to __?",
-                    answers: [
-                        "A) Dark",
-                        "B) Night",
-                        "C) Star",
-                        "D) Eclipse"
-                    ],
-                }
-            ]
-        },
-        selected_answer: {
+        exam_status: JSON.parse( sessionStorage.getItem( 'exam_status' ) ) ||  "visited",
+        approved: "",
+        all: [],
+        selectedExam: JSON.parse( sessionStorage.getItem( 'selectedExam' ) ) || {},
+        selected_answer: JSON.parse( sessionStorage.getItem( 'selected_answer' ) ) || {
             id: null,
             title: "",
             question: "",
@@ -162,6 +108,12 @@ export const exams = createSlice( {
     extraReducers: ( builder ) => {
         builder.addCase( getExams.fulfilled, ( state, action ) => {
             state.all = action.payload
+        } )
+        builder.addCase( getExamInfo.fulfilled, ( state, action ) => {
+            state.selectedExam = action.payload
+        } )
+        builder.addCase( sendSelectedAnswers.fulfilled, ( state, action ) => {
+            state.approved = action.payload
         } )
     }
 } )

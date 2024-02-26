@@ -7,7 +7,7 @@ import { useTimer } from "react-timer-hook";
 
 export const Greeting = () => {
     const dispatch = useDispatch()
-    const exam = useSelector(state => state.exams.selectedExam)
+    const exam = useSelector( state => state.exams.selectedExam )
 
     return <div className={ styles.message_container }>
         <Card
@@ -20,12 +20,12 @@ export const Greeting = () => {
             } }
         >
             <p style={ { textAlign: "justify" } }>
-                Dear students, your upcoming exam is scheduled for <b>{exam.duration} {exam.duration_format}</b>.
+                Dear students, your upcoming exam is scheduled for <b>{ exam.duration } { exam.duration_format }</b>.
                 Be well-prepared and focus. <br/><br/> <b>Good luck!</b> Success awaits your efforts.
             </p>
             <div style={ { width: "100%", display: "flex", justifyContent: "flex-end" } }>
                 <Button
-                    style={{marginTop: "30px"}}
+                    style={ { marginTop: "30px" } }
                     type="primary"
                     onClick={ () => dispatch( changeExamStatus( "start" ) ) }
                 >
@@ -39,6 +39,8 @@ export const Greeting = () => {
 
 export const FinishExam = () => {
     const dispatch = useDispatch()
+    const approved = useSelector( state => state.exams.approved )
+
 
     return <div className={ styles.message_container }>
         <Card
@@ -52,11 +54,13 @@ export const FinishExam = () => {
         >
             <p style={ { textAlign: "justify" } }>
                 Congratulations on successfully finishing your exam!
-                Your hard work and dedication are commendable.  <br/><br/> Well done!
+                Your hard work and dedication are commendable.<br />
+                { approved }
+                <br/><br/> Well done!
             </p>
             <div style={ { width: "100%", display: "flex", justifyContent: "flex-end" } }>
                 <Button
-                    style={{marginTop: "30px"}}
+                    style={ { marginTop: "30px" } }
                     type="primary"
                     onClick={ () => dispatch( changeExamStatus( "" ) ) }
                 >
@@ -68,13 +72,19 @@ export const FinishExam = () => {
 }
 
 
-
-export const RedirectUserToGeneralSite = ( { expiryTimestamp }) => {
-    const dispatch = useDispatch()
-
+export const RedirectUserToGeneralSite = ( { expiryTimestamp } ) => {
+    const student = useSelector( state => state.students.student )
     const {
         seconds,
-    } = useTimer({ expiryTimestamp, onExpire: () => window.open("https://genieweb.org/") })
+    } = useTimer( {
+        expiryTimestamp, onExpire: () => {
+            if ( !student?.physicalCert || !student?.id ) {
+                window.location.href = "https://www.genieweb.org";
+            } else {
+                window.location.href = "https://students.genieweb.org";
+            }
+        }
+    } )
 
     return <div className={ styles.message_container }>
         <Card
@@ -91,7 +101,7 @@ export const RedirectUserToGeneralSite = ( { expiryTimestamp }) => {
                 Redirecting you to our general page for further information and updates.
                 <br/><br/> Thank you!
             </p>
-            <div style={{width: "100%", display: "flex", justifyContent: "center"}}>{seconds}</div>
+            <div style={ { width: "100%", display: "flex", justifyContent: "center" } }>{ seconds }</div>
         </Card>
     </div>
 }

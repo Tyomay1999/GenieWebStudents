@@ -4,19 +4,17 @@ import { Breadcrumb, Layout, theme, Typography, Card } from 'antd';
 import time_SVG from "../../Assets/Exam/time.svg"
 import level_SVG from "../../Assets/Exam/level.svg"
 import { v4 as uuidv4 } from 'uuid';
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getExams } from "../../Redux/Slices/Exams/exams";
+import { changeExamStatus, getExams } from "../../Redux/Slices/Exams/exams";
+import { useNavigate } from "react-router";
 
 const { Header, Content, Footer } = Layout;
 const { Meta } = Card;
 const { Title, Paragraph } = Typography;
 
 
-const handlerExamUrl = (exam) => {
-    // url: "/exam/html/easy/token"
-    //TODO add token in exam data
-    return `/exam/${exam?.name?.toLowerCase()}/${exam?.level?.toLowerCase()}/${exam.token || "check-here"}`
+const handlerExamUrl = ( exam ) => {
+    return `/exam/${ exam?.key || "check-here" }`
 }
 
 
@@ -30,7 +28,6 @@ const Exam = () => {
     const [ loading, setLoading ] = useState( false );
 
     const exams = useSelector( state => state.exams.all )
-
 
 
     useEffect( () => {
@@ -106,7 +103,10 @@ const Exam = () => {
                                     exams.map( exam => {
                                         return <Card
                                             key={ uuidv4() }
-                                            extra={ <h1 onClick={ () => navigate( handlerExamUrl(exam) ) } style={ {
+                                            extra={ <h1 onClick={ () => {
+                                                navigate( handlerExamUrl( exam ) )
+                                                dispatch( changeExamStatus( "visited" ) )
+                                            } } style={ {
                                                 cursor: "pointer",
                                                 fontSize: "15px",
                                                 color: "#1677ff"
@@ -142,7 +142,7 @@ const Exam = () => {
                                                              src={ time_SVG } alt="time"/>
                                                         <span
                                                             style={ { margin: "0 10px 0 5px" } }>:</span>
-                                                        { exam?.duration } { exam.duration_format && exam.duration_format[0] }
+                                                        { exam?.duration } { exam.duration_format && exam.duration_format[ 0 ] }
                                                     </Paragraph>
                                                 </div>
                                             </div>

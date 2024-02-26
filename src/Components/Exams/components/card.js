@@ -10,12 +10,13 @@ const ExamCard = ( { examTest, question_index } ) => {
     const dispatch = useDispatch()
     const selectedAnswer = useSelector( state => state.exams.selected_answer )
 
+
     const onChange = ( e ) => {
         dispatch( selectAnswer( {
             id: examTest.id,
             title: examTest.title,
             question: examTest.question,
-            answer: examTest.answers[ e.target.value - 1 ],
+            answer: examTest.answers[ e.target.value ],
             answer_index: e.target.value,
             question_index
         } ) )
@@ -43,7 +44,7 @@ const ExamCard = ( { examTest, question_index } ) => {
                 } }
             >
                 <p style={ { marginBottom: "15px", fontWeight: "bold" } }>
-                    { examTest.question }
+                    { examTest?.question }
                 </p>
                 <Radio.Group
                     style={ {
@@ -54,11 +55,10 @@ const ExamCard = ( { examTest, question_index } ) => {
                     onChange={ onChange }
                     value={ selectedAnswer?.answer_index || 0 }
                 >
-                    {
-                        examTest.answers.map( ( answer, index ) => {
-                            return <Radio key={ uuidv4() } value={ index + 1 }>{ answer }</Radio>
-                        } )
-                    }
+                    <Radio key={ uuidv4() } value={ "answer_a" }>{ examTest?.answers?.answer_a }</Radio>
+                    <Radio key={ uuidv4() } value={ "answer_b" }>{ examTest?.answers?.answer_b }</Radio>
+                    <Radio key={ uuidv4() } value={ "answer_c" }>{ examTest?.answers?.answer_c }</Radio>
+                    <Radio key={ uuidv4() } value={ "answer_d" }>{ examTest?.answers?.answer_d }</Radio>
                 </Radio.Group>
             </div>
         </Card>

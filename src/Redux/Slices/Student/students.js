@@ -13,33 +13,34 @@ export const students = createSlice( {
     initialState: {
         all: [],
         student: {
-            name: "Artyom",
-            lastName: "Bordulanyuk",
-            phone: "+37491730250",
-            email: "artyom.bordulanyuk@gmail.com",
-            position: "Front-End",
-            positionIcon: frontEnd_PNG,
-            image: student_PNG,
-            lessons: [
-                {
-                    icon: html_SVG,
-                    name: "Html",
-                    status: "Complicated",
-                    isComplicated: true
-                },
-                {
-                    icon: css_SVG,
-                    name: "Css",
-                    status: "In progress",
-                    isComplicated: false
-                },
-                {
-                    icon: javaScript_SVG,
-                    name: "JavaScript",
-                    status: "Waiting",
-                    isComplicated: false
-                },
-            ]
+            // id: "",
+            // name: "Artyom",
+            // lastName: "Bordulanyuk",
+            // phone: "+37491730250",
+            // email: "artyom.bordulanyuk@gmail.com",
+            // position: "Front-End",
+            // positionIcon: frontEnd_PNG,
+            // image: student_PNG,
+            // lessons: [
+            //     {
+            //         icon: html_SVG,
+            //         name: "Html",
+            //         status: "Complicated",
+            //         isComplicated: true
+            //     },
+            //     {
+            //         icon: css_SVG,
+            //         name: "Css",
+            //         status: "In progress",
+            //         isComplicated: false
+            //     },
+            //     {
+            //         icon: javaScript_SVG,
+            //         name: "JavaScript",
+            //         status: "Waiting",
+            //         isComplicated: false
+            //     },
+            // ]
         }
     },
     reducers: {},

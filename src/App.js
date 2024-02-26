@@ -15,7 +15,7 @@ const App = () => {
     const allRoutes = [
         { id: 0, path: "/auth", element: <Auth/>, name: "Auth" },
         { id: 1, path: "/", element: <Main/>, name: "main" },
-        { id: 2, path: "/exam/:lesson/:level/:token", element: <Exams/>, name: "Exams" },
+        { id: 2, path: "/exam/:token", element: <Exams/>, name: "Exams" },
         { id: 3, path: "/qr/:id", element: <QR/>, name: "qr" },
         { id: 4, path: "/verify/:token", element: <StudentVerification/>, name: "Student verification" },
         { id: 5, path: "/forgot", element: <ForgotPassword />, name: "Forgot Password" },

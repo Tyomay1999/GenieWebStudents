@@ -22,7 +22,7 @@ const Student = () => {
         setLoading( !checked );
     };
 
-
+    //TODO create upload image
     return <div className={ style.main }>
         <Layout
             style={ {

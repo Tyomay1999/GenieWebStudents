@@ -20,11 +20,12 @@ export const ExamTestTimer = ({ expiryTimestamp }) => {
     } = useTimer({ expiryTimestamp, onExpire: () => dispatch(changeExamStatus("finished")) });
 
 
+
     return (
         <div style={{textAlign: 'center'}}>
             <div style={{fontSize: '3rem', color: "#111169"}}>
                 <span>{hours < 10 ? `0${hours}` : hours}</span>:
-                <span>{minutes < 20 ? `0${minutes}` : minutes}</span>:
+                <span>{minutes < 10 ? `0${minutes}` : minutes}</span>:
                 <span>{seconds < 10 ? `0${seconds}` : seconds}</span>
             </div>
         </div>

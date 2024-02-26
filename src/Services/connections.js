@@ -34,14 +34,20 @@ class Service {
         return `${ this.server_url }/qrs/scan/${ token }`
     }
 
-    GetStudentInfo(){
-        return `${this.server_url}/student/info`
+    GetStudentInfo() {
+        return `${ this.server_url }/student/info`
     }
 
     GetExams() {
-        return `${this.server_url}/student/exams`
+        return `${ this.server_url }/student/exams`
     }
 
+    GetExamInfo( id = "" ) {
+        return `${ this.server_url }/student/exams/${ id }`
+    }
+    SendExamSelectedAnswers(id = ""){
+        return `${ this.server_url }/student/exams/answers/${id}`
+    }
 }
 
 
