@@ -45,9 +45,28 @@ class Service {
     GetExamInfo( id = "" ) {
         return `${ this.server_url }/student/exams/${ id }`
     }
-    SendExamSelectedAnswers(id = ""){
-        return `${ this.server_url }/student/exams/answers/${id}`
+
+    SendExamSelectedAnswers( id = "" ) {
+        return `${ this.server_url }/student/exams/answers/${ id }`
     }
+
+    FinishLogicTest( token ) {
+        return `${ this.server_url }/student/exams/logic/${ token }`
+    }
+
+    connectionIssue( status, navigate ) {
+        if ( status === 500 ) {
+            return navigate( "/info/error" )
+        }
+        if ( status === 404 ) {
+            return navigate( "/info/unrecognized" )
+        }
+        if ( status === 403 ) {
+            return navigate( "/info/unauthorized" )
+        }
+        return navigate( "/info/problems" )
+    }
+
 }
 
 

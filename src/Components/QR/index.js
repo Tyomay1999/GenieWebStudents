@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import { setLoadingState } from "../../Redux/Slices/loading";
 
 
-const get_qr_info = async (id) => {
+const get_qr_info = async (id, navigate) => {
     try {
         const response = await fetchingDataWithAxiosMiddleware(
             "GET",
@@ -20,7 +20,7 @@ const get_qr_info = async (id) => {
         )
         return response.data
     } catch (e) {
-        console.log(e.message, "<--------------------- QR CHECK")
+        Connection.connectionIssue(parseInt(e.request.status), navigate)
     }
 }
 

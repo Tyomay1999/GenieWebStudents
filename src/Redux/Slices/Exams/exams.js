@@ -1,9 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchingDataWithAxiosMiddleware } from "../fetch";
 import Connection from "../../../Services/connections";
-import html_SVG from "../../../Assets/Student/html.svg"
-import css_SVG from "../../../Assets/Student/css.svg"
-import js_SVG from "../../../Assets/Student/js.svg"
 import { notification } from "antd";
 
 
@@ -20,21 +17,29 @@ export const getExams = createAsyncThunk(
 
 export const getExamInfo = createAsyncThunk(
     'exams/getExamInfo',
-    async ( { token, navigate }, ) => {
+    async ( { token, navigate, is_logic_test }, ) => {
         try {
             const formData = new FormData()
             formData.append( "langId", "1" )
             const response = await fetchingDataWithAxiosMiddleware(
-                "POST",
+                is_logic_test ? "PUT" : "POST",
                 Connection.GetExamInfo( token ),
                 formData
             )
-            return response.data.exam
-        } catch ( e ) {
-            navigate( "/" )
+            if ( !response.data.is_used ) {
+                return response.data.exam
+            }
+            Connection.connectionIssue( 0, navigate )
             notification.error( {
                 placement: 'topRight',
-                message: "Exam not found",
+                message: "Link already used",
+            } )
+        } catch ( e ) {
+            const status = parseInt( e.response.status )
+            Connection.connectionIssue( status, navigate )
+            notification.error( {
+                placement: 'topRight',
+                message: "Problem",
             } )
         }
     }
@@ -68,7 +73,7 @@ export const sendSelectedAnswers = createAsyncThunk(
 export const exams = createSlice( {
     name: 'exams',
     initialState: {
-        exam_status: JSON.parse( sessionStorage.getItem( 'exam_status' ) ) ||  "visited",
+        exam_status: JSON.parse( sessionStorage.getItem( 'exam_status' ) ) || "visited",
         approved: "",
         all: [],
         selectedExam: JSON.parse( sessionStorage.getItem( 'selectedExam' ) ) || {},
@@ -110,7 +115,7 @@ export const exams = createSlice( {
             state.all = action.payload
         } )
         builder.addCase( getExamInfo.fulfilled, ( state, action ) => {
-            state.selectedExam = action.payload
+            state.selectedExam = action.payload || {}
         } )
         builder.addCase( sendSelectedAnswers.fulfilled, ( state, action ) => {
             state.approved = action.payload

@@ -119,10 +119,17 @@ const Student = () => {
                                                 { student?.email }
                                             </a>
                                         </Paragraph>
-                                        <a href={ `tel:0${ student?.teacher?.phone }` }
-                                           style={ { color: "black", textDecoration: "none", fontSize: "18px" } }>
-                                            +374 { student?.phone }
-                                        </a>
+                                        {
+                                            student?.phone ?
+                                                <a href={ `tel:0${ student.phone }` }
+                                                   style={ {
+                                                       color: "black",
+                                                       textDecoration: "none",
+                                                       fontSize: "18px"
+                                                   } }>
+                                                    +374 { student.phone }
+                                                </a> : <></>
+                                        }
                                     </div>
                                 </div>
                             </Skeleton>
@@ -168,17 +175,31 @@ const Student = () => {
                                         <div style={ { display: "flex", flexDirection: "column" } }>
                                             <Title
                                                 level={ 4 }>{ student?.teacher?.name } { student?.teacher?.lastName }</Title>
-                                            <Paragraph
-                                                copyable={ { text: student?.teacher?.email } }>
-                                                <a href={ `mailto:${ student?.teacher?.email }` }
-                                                   style={ { color: "black", textDecoration: "none", fontSize: "18px" } }>
-                                                    { student?.teacher?.email }
-                                                </a>
-                                            </Paragraph>
-                                            <a href={ `tel:0${ student?.teacher?.phone }` }
-                                               style={ { color: "black", textDecoration: "none", fontSize: "18px" } }>
-                                                +374 { student?.teacher?.phone }
-                                            </a>
+                                            {
+                                                student?.teacher?.email ?
+                                                    <Paragraph
+                                                        copyable={ { text: student.teacher.email } }>
+                                                        <a href={ `mailto:${ student.teacher.email }` }
+                                                           style={ {
+                                                               color: "black",
+                                                               textDecoration: "none",
+                                                               fontSize: "18px"
+                                                           } }>
+                                                            { student.teacher.email }
+                                                        </a>
+                                                    </Paragraph> : <></>
+                                            }
+                                            {
+                                                student?.teacher?.phone ?
+                                                    <a href={ `tel:0${ student.teacher.phone }` }
+                                                       style={ {
+                                                           color: "black",
+                                                           textDecoration: "none",
+                                                           fontSize: "18px"
+                                                       } }>
+                                                        +374 { student.teacher.phone }
+                                                    </a> : <></>
+                                            }
                                         </div>
                                     </div>
                                 </div>

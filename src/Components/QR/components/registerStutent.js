@@ -4,6 +4,7 @@ import { fetchingDataWithAxiosMiddleware } from "../../../Redux/Slices/fetch";
 import Connection from "../../../Services/connections";
 import { setLoadingState } from "../../../Redux/Slices/loading";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 
 
 const MyFormItemContext = React.createContext( [] );
@@ -50,7 +51,7 @@ const MyFormItem = ( { name, ...props } ) => {
 };
 
 
-const register = async ( data ) => {
+const register = async ( data, navigate ) => {
     try {
         const response = await fetchingDataWithAxiosMiddleware(
             "POST",
@@ -59,13 +60,14 @@ const register = async ( data ) => {
         )
         return response.data
     } catch ( e ) {
-        console.log( e.message, "register student" )
+        Connection.connectionIssue(parseInt(e.request.status), navigate)
     }
 }
 
 
 const RegisterStudent = ( { info, setProcess } ) => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const onFinish = ( value ) => {
         let data = {
             qr_id: info.qr_id,
@@ -78,7 +80,7 @@ const RegisterStudent = ( { info, setProcess } ) => {
             }
         }
         dispatch( setLoadingState( true ) )
-        register( data ).then( resp => {
+        register( data, navigate ).then( resp => {
             if ( resp?.message === "success" ) {
                 setProcess( "finish" )
                 dispatch( setLoadingState( false ) )

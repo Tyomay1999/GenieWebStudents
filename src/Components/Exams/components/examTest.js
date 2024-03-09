@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles/exam.module.scss"
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { ExamTestTimer } from "./timer";
 import { Button, Steps, theme } from 'antd';
 import ExamCard from "./card";
@@ -16,8 +16,9 @@ import { students } from "../../../Redux/Slices/Student/students";
 import { getStudentInfo } from "../../../Redux/Slices/Student/asyncThunks";
 
 
-const ExamTest = () => {
+const ExamTest = ( { is_logic_test } ) => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const questions = useSelector( state => state.exams.selectedExam.questions )
     const exam = useSelector( state => state.exams.selectedExam )
     const student_id = useSelector( state => state.students.student.id )
@@ -31,13 +32,13 @@ const ExamTest = () => {
 
 
     useEffect( () => {
-        if ( !student_id ) {
-            dispatch( getStudentInfo() )
+        if ( !student_id && !is_logic_test ) {
+            dispatch( getStudentInfo({navigate}) )
         }
         if ( answers[ current ] ) {
             dispatch( selectAnswer( answers[ current ] ) )
-            window.sessionStorage.setItem("selectedExam", JSON.stringify(exam))
-            window.sessionStorage.setItem("selectedAnswer", JSON.stringify(selectedAnswer))
+            window.sessionStorage.setItem( "selectedExam", JSON.stringify( exam ) )
+            window.sessionStorage.setItem( "selectedAnswer", JSON.stringify( selectedAnswer ) )
         }
     }, [ current, dispatch ] )
 
@@ -59,7 +60,9 @@ const ExamTest = () => {
 
     const done = () => {
         dispatch( changeExamStatus( "finished" ) )
-        dispatch( sendSelectedAnswers( { answers: [ ...answers, selectedAnswer ], student_id: student_id } ) )
+        if ( !is_logic_test ) {
+            dispatch( sendSelectedAnswers( { answers: [ ...answers, selectedAnswer ], student_id: student_id } ) )
+        }
     };
 
     const items = questions?.map( ( item ) => ( {
@@ -97,12 +100,12 @@ const ExamTest = () => {
                 marginTop: 24,
             } }
         >
-            {questions && current < questions?.length - 1 && (
+            { questions && current < questions?.length - 1 && (
                 <Button disabled={ !selectedAnswer?.answer } type="primary" onClick={ () => next() }>
                     Next
                 </Button>
             ) }
-            {questions && current === questions?.length - 1 && (
+            { questions && current === questions?.length - 1 && (
                 <Button disabled={ !selectedAnswer?.answer } type="primary" onClick={ () => done() }>
                     Done
                 </Button>

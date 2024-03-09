@@ -3,6 +3,7 @@ import { fetchingDataWithAxiosMiddleware } from "./fetch";
 import dataControl from "../../Services/dataControl";
 import Connections from "../../Services/connections";
 import { setLoadingState } from "./loading";
+import { notification } from "antd";
 
 
 export const checkAccount = createAsyncThunk(
@@ -15,12 +16,12 @@ export const checkAccount = createAsyncThunk(
                 Connections.CheckAccount()
             )
             if ( response.data.authenticate ) {
-                navigate( '/' )
+                navigate( '/home' )
             } else {
-                navigate( '/auth' )
+                Connections.connectionIssue( 403, navigate )
             }
-        } catch ( e ){
-            navigate( '/auth' )
+        } catch ( e ) {
+            Connections.connectionIssue( 403, navigate )
             dataControl.removeToken()
         }
     }
@@ -30,17 +31,23 @@ export const checkAccount = createAsyncThunk(
 export const signUp = createAsyncThunk(
     "authentication/signUp",
     async ( payload, action ) => {
-        action.dispatch(setLoadingState(true))
-        const response = await fetchingDataWithAxiosMiddleware(
-            "POST",
-            Connections.SignUp(),
-            {
-                ...payload.account,
-                status: "Admin"
-            }
-        )
-        dataControl.saveToken( response.data.access_token )
-        payload.navigate( '/' )
+        action.dispatch( setLoadingState( true ) )
+        try {
+            const response = await fetchingDataWithAxiosMiddleware(
+                "POST",
+                Connections.SignUp(),
+                {
+                    ...payload.account
+                }
+            )
+            dataControl.saveToken( response.data.access_token )
+            payload.navigate( '/home' )
+        } catch ( e ){
+            notification.error( {
+                placement: 'topRight',
+                message: "Check form entries",
+            } )
+        }
     }
 )
 

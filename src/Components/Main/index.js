@@ -50,7 +50,7 @@ const Main = () => {
 
 
     useEffect( () => {
-        dispatch( getStudentInfo() )
+        dispatch( getStudentInfo( { navigate }) )
         dispatch( checkAccount( navigate ) )
     }, [ dispatch ] )
 

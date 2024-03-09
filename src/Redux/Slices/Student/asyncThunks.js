@@ -19,6 +19,7 @@ export const getStudentInfo = createAsyncThunk(
             return response.data.students;
         } catch ( e ) {
             action.dispatch( setLoadingState( false ) )
+            Connection.connectionIssue(parseInt(e.request.status), data.navigate)
             notification.error( {
                 placement: 'topRight',
                 message: e.message,

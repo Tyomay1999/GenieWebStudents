@@ -4,24 +4,26 @@ import { useSelector } from "react-redux";
 import { Spin } from "antd";
 
 
-
 const Loading = () => {
-    const run = useSelector(state => state.loading.run)
+    const run = useSelector( state => state.loading.run )
+    const student = useSelector( state => state.students.student )
 
     useEffect( () => {
         if ( run ) {
             document?.body?.classList?.add( "modalOpen" )
         } else {
-            document?.body?.classList?.remove( "modalOpen" )
+            if ( student?.physicalCert ) {
+                document?.body?.classList?.remove( "modalOpen" )
+            }
         }
-    }, [ run ] )
+    }, [ run, student?.physicalCert ] )
 
-    if(!run){
+    if ( !run ) {
         return <></>
     }
 
-    return <div className={style.main}>
-        <Spin size="large" />
+    return <div className={ style.main }>
+        <Spin size="large"/>
     </div>
 }
 

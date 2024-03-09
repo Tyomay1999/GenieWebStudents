@@ -1,6 +1,6 @@
 import React from "react"
 import styles from "../styles/qr.module.scss"
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { fetchingDataWithAxiosMiddleware } from "../../../Redux/Slices/fetch";
 import Connection from "../../../Services/connections";
@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { setLoadingState } from "../../../Redux/Slices/loading";
 
 
-const scanToken = async ( token ) => {
+const scanToken = async ( token, navigate ) => {
     try {
         const response = await fetchingDataWithAxiosMiddleware(
             "GET",
@@ -18,12 +18,12 @@ const scanToken = async ( token ) => {
 
         return response.data
     } catch ( e ) {
-        console.log( e.message, "<------------------- Scan Token" )
+        Connection.connectionIssue(parseInt(e.request._status), navigate)
     }
 }
 
 
-const sendStudentInfo = async ( data ) => {
+const sendStudentInfo = async ( data, navigate ) => {
     try {
         const response = await fetchingDataWithAxiosMiddleware(
             "PUT",
@@ -32,20 +32,21 @@ const sendStudentInfo = async ( data ) => {
         )
         return response.data
     } catch ( e ) {
-        console.log( e.message, "<------------------- Send Student Info" )
+        Connection.connectionIssue(parseInt(e.request._status), navigate)
     }
 }
 
 const StudentVerification = () => {
     const dispatch = useDispatch()
     const params = useParams()
+    const navigate = useNavigate()
     const [ studentInfo, setStudentInfo ] = useState( null )
     const [ process, setProcess ] = useState( "verification" )
 
     useEffect( () => {
         if ( params.token ) {
             dispatch( setLoadingState( true ) )
-            scanToken( params.token ).then( resp => {
+            scanToken( params.token, navigate ).then( resp => {
                 if ( resp?.data?.email ) {
                     setStudentInfo( resp.data )
                 }
@@ -58,7 +59,7 @@ const StudentVerification = () => {
 
 
     const onFinish = value => {
-        sendStudentInfo( { password: value?.password, email: studentInfo?.email } )
+        sendStudentInfo( { password: value?.password, email: studentInfo?.email }, navigate )
             .then( resp => {
                 if ( resp.message === "success" ) {
                     setProcess( "finish" )

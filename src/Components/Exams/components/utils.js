@@ -1,9 +1,12 @@
 import React from "react";
 import styles from "../styles/exam.module.scss";
+import Connections from "../../../Services/connections";
 import { useDispatch, useSelector } from "react-redux";
 import { changeExamStatus } from "../../../Redux/Slices/Exams/exams";
-import { Button, Card } from "antd";
+import { Button, Card, notification } from "antd";
 import { useTimer } from "react-timer-hook";
+import { useNavigate, useParams } from "react-router";
+import { fetchingDataWithAxiosMiddleware } from "../../../Redux/Slices/fetch";
 
 export const Greeting = () => {
     const dispatch = useDispatch()
@@ -37,10 +40,23 @@ export const Greeting = () => {
 }
 
 
-export const FinishExam = () => {
-    const dispatch = useDispatch()
-    const approved = useSelector( state => state.exams.approved )
+const finishExam = async ( token, navigate ) => {
+    try {
+        await fetchingDataWithAxiosMiddleware(
+            "GET",
+            Connections.FinishLogicTest( token )
+        )
+    } catch ( e ) {
+        Connections.connectionIssue( parseInt( e.request.status ), navigate )
+    }
+}
 
+
+export const FinishExam = ( { is_logic_test } ) => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const approved = useSelector( state => state.exams.approved )
+    const params = useParams()
 
     return <div className={ styles.message_container }>
         <Card
@@ -54,7 +70,7 @@ export const FinishExam = () => {
         >
             <p style={ { textAlign: "justify" } }>
                 Congratulations on successfully finishing your exam!
-                Your hard work and dedication are commendable.<br />
+                Your hard work and dedication are commendable.<br/>
                 { approved }
                 <br/><br/> Well done!
             </p>
@@ -62,7 +78,12 @@ export const FinishExam = () => {
                 <Button
                     style={ { marginTop: "30px" } }
                     type="primary"
-                    onClick={ () => dispatch( changeExamStatus( "" ) ) }
+                    onClick={ () => {
+                        if ( is_logic_test && params?.token ) {
+                            finishExam( params?.token, navigate ).then( r => r )
+                        }
+                        dispatch( changeExamStatus( "" ) )
+                    } }
                 >
                     Finish
                 </Button>

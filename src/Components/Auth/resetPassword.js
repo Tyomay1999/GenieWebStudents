@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react"
 import styles from "../QR/styles/qr.module.scss"
 import { fetchingDataWithAxiosMiddleware } from "../../Redux/Slices/fetch";
 import Connection from "../../Services/connections";
-import { Button, Card, Form, Input } from "antd";
+import { Button, Card, Form, Input, notification } from "antd";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { setLoadingState } from "../../Redux/Slices/loading";
 
 
-const resetStudentPassword = async ( data ) => {
+const resetStudentPassword = async ( data,navigate ) => {
     try {
         const formData = new FormData()
         formData.append( "token", data.token )
@@ -20,7 +20,12 @@ const resetStudentPassword = async ( data ) => {
         )
         return response.data
     } catch ( e ) {
-        console.log( e.message, "<------------------- Send Student Info" )
+        const status = parseInt(e.request.status)
+        Connection.connectionIssue(status, navigate)
+        notification.error( {
+            placement: 'topRight',
+            message: "Check form entries",
+        } )
     }
 }
 
@@ -43,7 +48,7 @@ const ResetStudentPassword = () => {
 
     const onFinish = ( data ) => {
         dispatch( setLoadingState( false ) )
-        resetStudentPassword( { password: data.password, token: params.token } ).then( ( resp ) => {
+        resetStudentPassword( { password: data.password, token: params.token }, navigate ).then( ( resp ) => {
             if ( resp?.message === "success" ) {
                 setProcess( "finish" )
             }

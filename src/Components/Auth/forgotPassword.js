@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import styles from "../QR/styles/qr.module.scss"
 import { fetchingDataWithAxiosMiddleware } from "../../Redux/Slices/fetch";
 import Connection from "../../Services/connections";
-import { Button, Card, Form, Input } from "antd";
+import { Button, Card, Form, Input, notification } from "antd";
 import { useDispatch } from "react-redux";
 import { setLoadingState } from "../../Redux/Slices/loading";
 
@@ -18,7 +18,10 @@ const sendResetLinkToEmail = async ( email ) => {
         )
         return response.data
     } catch ( e ) {
-        console.log( e.message, "<------------------- Send Student Info" )
+        notification.error( {
+            placement: 'topRight',
+            message: "Email not found",
+        } )
     }
 }
 

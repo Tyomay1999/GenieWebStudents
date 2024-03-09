@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 const UnPhysicalCert = () => {
     const student = useSelector( state => state.students.student )
 
-
     useEffect( () => {
         if ( !student?.physicalCert ) {
             document?.body?.classList?.add( "modalOpen" )
