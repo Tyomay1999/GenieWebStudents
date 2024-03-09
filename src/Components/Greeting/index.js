@@ -1,17 +1,27 @@
 import style from "./style/greeting.module.scss"
 import BackgroundAnimation from "../Common/backgroundAnimation";
 import { Button, Card } from "antd";
-import React from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { useNavigate } from "react-router";
+import { checkAccount } from "../../Redux/Slices/auth";
+import { useDispatch } from "react-redux";
+import dataControl from "../../Services/dataControl";
 
 const Greeting = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
+    useEffect( () => {
+        const token = dataControl.getToken()
+        if ( token ) {
+            dispatch( checkAccount( navigate ) )
+        }
+    }, [ dispatch ] )
 
     return <>
         <div className={ style.main }>
             <Card
-                extra={ <Button onClick={ () => navigate( "/auth" ) } type="primary">Login</Button> }
+                extra={ <Button onClick={ () => navigate( "/auth" ) } type="primary">Come on</Button> }
                 title={ "GenieWeb Student Platform" }
                 style={ {
                     padding: "20px 0",

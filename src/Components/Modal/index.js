@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import style from "./styles/modal.module.scss"
 import { Button, Card, Form, Input, Modal } from 'antd';
 import { useSelector } from "react-redux";
+import dataControl from "../../Services/dataControl";
+import { useNavigate } from "react-router";
 
 const UnPhysicalCert = () => {
     const student = useSelector( state => state.students.student )
+    const navigate = useNavigate()
 
     useEffect( () => {
         if ( !student?.physicalCert ) {
@@ -15,7 +18,7 @@ const UnPhysicalCert = () => {
     }, [ student?.physicalCert ] )
 
 
-    if ( student?.physicalCert ) {
+    if ( student?.physicalCert && student?.group?.id ) {
         return <></>
     }
 
@@ -23,6 +26,17 @@ const UnPhysicalCert = () => {
 
     return <div className={ style.main }>
         <Card title=""
+              extra={
+                  <div
+                      style={ {
+                          fontSize: "25px",
+                          cursor: "pointer"
+                      } }
+                      onClick={ () => {
+                          dataControl.removeToken()
+                          navigate( "/auth" )
+                      } }
+                  >Exit</div> }
               style={ {
                   padding: "20px 0",
                   minWidth: "300px",
@@ -30,7 +44,7 @@ const UnPhysicalCert = () => {
                   textAlign: "",
                   display: "flex",
                   flexDirection: "column",
-                  alignItems: "center"
+                  // alignItems: "center"
               } }>
             <h2 style={ { fontSize: "15px", textAlign: "start", margin: "10px 0" } }>
                 Dear { `${ student?.name || "Genie Web" } ${ student?.lastName || "Student" }` } ,

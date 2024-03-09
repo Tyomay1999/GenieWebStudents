@@ -2,7 +2,6 @@ import style from "./styles/infoPages.module.scss"
 import { useNavigate, useParams } from "react-router";
 import { Button, Result } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
-import { useEffect } from "react";
 
 const pagesType = {
     "error": ( text, navigate ) => {

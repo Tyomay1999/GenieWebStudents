@@ -1,3 +1,5 @@
+import dataControl from "./dataControl";
+
 class Service {
 
     constructor() {
@@ -62,6 +64,7 @@ class Service {
             return navigate( "/info/unrecognized" )
         }
         if ( status === 403 ) {
+            dataControl.removeToken()
             return navigate( "/info/unauthorized" )
         }
         return navigate( "/info/problems" )

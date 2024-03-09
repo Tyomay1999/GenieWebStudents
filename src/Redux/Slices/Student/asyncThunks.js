@@ -16,7 +16,7 @@ export const getStudentInfo = createAsyncThunk(
             setTimeout( () => {
                 action.dispatch( setLoadingState( false ) )
             }, 1000 )
-            return response.data.students;
+            return response.data.student;
         } catch ( e ) {
             action.dispatch( setLoadingState( false ) )
             Connection.connectionIssue(parseInt(e.request.status), data.navigate)

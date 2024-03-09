@@ -50,7 +50,7 @@ const Main = () => {
 
 
     useEffect( () => {
-        dispatch( getStudentInfo( { navigate }) )
+        dispatch( getStudentInfo( { navigate } ) )
         dispatch( checkAccount( navigate ) )
     }, [ dispatch ] )
 
@@ -96,12 +96,13 @@ const Main = () => {
             </Sider>
 
             {
-                selectedMenuItem === "Student" ? <Student/> :
-                    selectedMenuItem === "Messages" ? <InfoMessage/> :
-                        selectedMenuItem === "Info" ? <ContactUS/> :
-                            selectedMenuItem === "Exams" ? <Exam/> :
-                                selectedMenuItem === "Logout" ?
-                                    <Logout cancel={ () => selectItemOfMenu( "Student" ) }/> : <></>
+                !student ? <></> :
+                    selectedMenuItem === "Student" ? <Student/> :
+                        selectedMenuItem === "Messages" ? <InfoMessage/> :
+                            selectedMenuItem === "Info" ? <ContactUS/> :
+                                selectedMenuItem === "Exams" ? <Exam/> :
+                                    selectedMenuItem === "Logout" ?
+                                        <Logout cancel={ () => selectItemOfMenu( "Student" ) }/> : <></>
             }
             <UnPhysicalCert/>
             <Loading/>
