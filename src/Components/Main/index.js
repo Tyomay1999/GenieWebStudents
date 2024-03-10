@@ -41,7 +41,6 @@ function getItem( label, key, icon, selectItemOfMenu, physicalCert, children ) {
 
 
 const Main = () => {
-    //TODO existing bug in server error (500)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [ collapsed, setCollapsed ] = useState( true );
@@ -61,11 +60,6 @@ const Main = () => {
         getItem( 'Info', '3', <InfoCircleFilled/>, selectItemOfMenu, student?.physicalCert ),
         getItem( 'Exams', '4', <HourglassOutlined/>, selectItemOfMenu, student?.physicalCert ),
         getItem( 'Logout', '5', <LogoutOutlined/>, selectItemOfMenu, student?.physicalCert ),
-        // getItem( 'User', 'sub1', <UserOutlined/>, [
-        //     getItem( 'Tom', '3' ),
-        //     getItem( 'Bill', '4' ),
-        //     getItem( 'Alex', '5' ),
-        // ] )
     ];
 
     return (

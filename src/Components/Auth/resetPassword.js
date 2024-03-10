@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { setLoadingState } from "../../Redux/Slices/loading";
 
 
-const resetStudentPassword = async ( data,navigate ) => {
+const resetStudentPassword = async ( data, navigate ) => {
     try {
         const formData = new FormData()
         formData.append( "token", data.token )
@@ -20,11 +20,29 @@ const resetStudentPassword = async ( data,navigate ) => {
         )
         return response.data
     } catch ( e ) {
-        const status = parseInt(e.request.status)
-        Connection.connectionIssue(status, navigate)
+        const status = parseInt( e.request.status )
+        Connection.connectionIssue( status, navigate )
         notification.error( {
             placement: 'topRight',
             message: "Check form entries",
+        } )
+    }
+}
+
+const checkResetToken = async ( token, navigate ) => {
+    //TODO ENABLE LOADING SYSTEM
+    try {
+        const response = await fetchingDataWithAxiosMiddleware(
+            "GET",
+            Connection.CheckResetToken( token )
+        )
+        return response.data
+    } catch ( e ) {
+        const status = parseInt( e.request.status )
+        Connection.connectionIssue( status, navigate )
+        notification.error( {
+            placement: 'topRight',
+            message: "Invalid Token",
         } )
     }
 }
@@ -35,6 +53,11 @@ const ResetStudentPassword = () => {
     const navigate = useNavigate()
 
     const [ process, setProcess ] = useState( "start" )
+
+
+    useEffect( () => {
+        checkResetToken( params.token, navigate ).then( r => r )
+    }, [ checkResetToken ] )
 
 
     useEffect( () => {

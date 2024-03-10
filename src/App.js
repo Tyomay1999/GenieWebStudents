@@ -11,6 +11,7 @@ import ResetStudentPassword from "./Components/Auth/resetPassword";
 import UnPhysicalCert from "./Components/Modal";
 import InfoPages from "./Components/InfoPages";
 import Greeting from "./Components/Greeting";
+import StopResettingStudentPassword from "./Components/Auth/stopResetPassword";
 
 
 const App = () => {
@@ -24,8 +25,9 @@ const App = () => {
         { id: 4, path: "/verify/:token", element: <StudentVerification/>, name: "Student verification" },
         { id: 5, path: "/forgot", element: <ForgotPassword/>, name: "Forgot Password" },
         { id: 6, path: "/reset/:token", element: <ResetStudentPassword/>, name: "Reset Password" },
-        { id: 7, path: "/info/:type", element: <InfoPages />, name: "Info pages" },
-        { id: 8, path: "/*", element: <InfoPages />, name: "Redirect ;)" },
+        { id: 7, path: "/stop/reset/:token", element: <StopResettingStudentPassword/>, name: "Stop Reset Password" },
+        { id: 8, path: "/info/:type", element: <InfoPages />, name: "Info pages" },
+        { id: 9, path: "/*", element: <InfoPages />, name: "Redirect ;)" },
     ]
 
     return (

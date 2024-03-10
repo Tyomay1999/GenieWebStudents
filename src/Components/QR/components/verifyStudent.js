@@ -70,7 +70,6 @@ const StudentVerification = () => {
         } )
     }
     //TODO password regexp && routeing bug
-    //TODO Invalid token opened verification page
     return <div className={ styles.main }>
 
         <Card title={ process[ 0 ].toUpperCase() + process.substring( 1 ) }

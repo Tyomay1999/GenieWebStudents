@@ -10,19 +10,18 @@ const UnPhysicalCert = () => {
     const navigate = useNavigate()
 
     useEffect( () => {
-        if ( !student?.physicalCert ) {
+        if ( !student?.physicalCert || student?.stopped ) {
             document?.body?.classList?.add( "modalOpen" )
         } else {
             document?.body?.classList?.remove( "modalOpen" )
         }
-    }, [ student?.physicalCert ] )
+    }, [ student?.physicalCert, student?.stopped ] )
 
 
-    if ( student?.physicalCert && student?.group?.id ) {
+    if ( student?.physicalCert && student?.group?.id && !student?.stopped ) {
         return <></>
     }
 
-    //TODO check routeing in unauthenticated mod
 
     return <div className={ style.main }>
         <Card title=""

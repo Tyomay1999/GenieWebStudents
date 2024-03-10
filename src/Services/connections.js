@@ -32,6 +32,14 @@ class Service {
         return `${ this.server_url }/student/reset/pass`
     }
 
+    StopResettingPassword(token){
+        return `${ this.server_url }/student/stop/reset/${token}`
+    }
+
+    CheckResetToken(token) {
+        return `${ this.server_url }/student/check/reset/${token}`
+    }
+
     Scan( token = "" ) {
         return `${ this.server_url }/qrs/scan/${ token }`
     }
@@ -66,6 +74,10 @@ class Service {
         if ( status === 403 ) {
             dataControl.removeToken()
             return navigate( "/info/unauthorized" )
+        }
+
+        if ( status === 409 ) {
+            return navigate( "/info/existed-student" )
         }
         return navigate( "/info/problems" )
     }
