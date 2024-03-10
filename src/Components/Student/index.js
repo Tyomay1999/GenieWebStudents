@@ -13,7 +13,6 @@ const Student = () => {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-    // TODO Check Loading
     const [ loading, setLoading ] = useState( false );
     const student = useSelector( state => state.students.student )
 
@@ -168,7 +167,7 @@ const Student = () => {
                                             alignItems: "center"
                                         } }>
                                             <Avatar style={ { width: "80px", height: "80px", objectFit: "cover" } }
-                                                    src={ //TODO check here
+                                                    src={
                                                         student?.image
                                                     }/>
                                         </div>

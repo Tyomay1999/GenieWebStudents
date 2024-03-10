@@ -8,11 +8,10 @@ import { getExamInfo } from "../../Redux/Slices/Exams/exams";
 
 
 const Exam = ( { is_logic_test } ) => {
-    //TODO check data
     const dispatch = useDispatch()
     const params = useParams()
     const navigate = useNavigate()
-    const { token, level, lesson } = params
+    const { token } = params
     const examStatus = useSelector( state => state.exams.exam_status )
     const time = new Date();
     time.setSeconds( time.getSeconds() + 5 )

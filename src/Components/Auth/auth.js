@@ -5,6 +5,7 @@ import { checkAccount, signUp } from "../../Redux/Slices/auth";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import dataControl from "../../Services/dataControl";
+import { minEightCharacters } from "../Common/paterns";
 
 const onFinishFailed = ( errorInfo ) => {
     console.log( 'Failed:', errorInfo );
@@ -80,7 +81,8 @@ const Auth = () => {
                 rules={ [
                     {
                         required: true,
-                        message: 'Please input your password!',
+                        pattern: minEightCharacters,
+                        message: 'Minimum eight characters',
                     },
                 ] }
             >

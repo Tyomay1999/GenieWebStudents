@@ -7,6 +7,7 @@ import Connection from "../../../Services/connections";
 import { Button, Card, Form, Input } from "antd";
 import { useDispatch } from "react-redux";
 import { setLoadingState } from "../../../Redux/Slices/loading";
+import { minEightCharacters } from "../../Common/paterns";
 
 
 const scanToken = async ( token, navigate ) => {
@@ -98,11 +99,12 @@ const StudentVerification = () => {
                     >
                         <Form.Item
                             name="password"
-                            // label=""
+                            style={{maxWidth: "370px"}}
                             rules={ [
                                 {
                                     required: true,
-                                    message: 'Please input your password!',
+                                    pattern: minEightCharacters,
+                                    message: 'Minimum eight characters, at least one uppercase letter, one lowercase letter and one number',
                                 },
                             ] }
                             hasFeedback

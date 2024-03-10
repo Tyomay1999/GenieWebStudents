@@ -18,7 +18,6 @@ const ContactUS = () => {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-    // TODO Check Loading
     const [ loading, setLoading ] = useState( false );
     const onChange = ( checked ) => {
         setLoading( !checked );
